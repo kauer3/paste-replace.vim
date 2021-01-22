@@ -1,8 +1,7 @@
 function! CPRRedirect()
 	let l:char = nr2char(getchar())
-	if char == i or a
-	todo
-	return todo
+	if char == i
+		return yri
 endfunction
 
 nmap <expr> yr :call PRRedirect()
