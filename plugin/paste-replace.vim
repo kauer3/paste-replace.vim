@@ -1,29 +1,30 @@
-function! CPRRedirect()
+
+function! PRRedirect()
 	let l:char = nr2char(getchar())
-	if char == i
-		return yri
+	if char == 'i'
+		return yri"
+	endif
 endfunction
 
-nmap <expr> yr :call PRRedirect()
+nmap <expr> yr PRRedirect()
 nmap <expr> yri "ci" . nr2char(getchar()) . "<C-r>0<ESC>"
 nmap <expr> yra "ca" . nr2char(getchar()) . "<C-r>0<ESC>"
 nmap <expr> cri "ci" . nr2char(getchar()) . "<C-r>*<ESC>"
 nmap <expr> cra "ca" . nr2char(getchar()) . "<C-r>*<ESC>"
 
 
-
-
+nmap 8 :echo "hello"<CR>
 "Paste from clipboard
 nmap yp a<C-r>0<ESC>
 
 "TODO yp< and paraghaph
 "Replace by yanked
-nmap yr> lC<C-r>0<ESC>
-nmap yrp cc<C-r>0<ESC>
-nmap yrl cl<C-r>0<ESC>
-nmap yrw cw<C-r>0<ESC>
-nmap yriw ciw<C-r>0<ESC>
-nmap yrW cW<C-r>0<ESC>
+"nmap yr> lC<C-r>0<ESC>
+"nmap yrp cc<C-r>0<ESC>
+"nmap yrl cl<C-r>0<ESC>
+"nmap yrw cw<C-r>0<ESC>
+"nmap yriw ciw<C-r>0<ESC>
+"nmap yrW cW<C-r>0<ESC>
 "nmap ypiW ciW<C-r>0<ESC>
 "nmap ypi" ci"<C-r>0<ESC>
 "nmap ypi' ci'<C-r>0<ESC>
