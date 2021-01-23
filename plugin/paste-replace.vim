@@ -1,4 +1,5 @@
-
+"Add other "yr" keybindings to function and add function to clipboard replace
+"too
 function! YRRedirect()
 	let l:char = nr2char(getchar())
 	if char == 'i'
@@ -6,7 +7,6 @@ function! YRRedirect()
 	elseif char == 'a'
 		return yra
 	endif
-"Add other "yr" keybindings
 endfunction
 
 "nmap <expr> yr YRRedirect()
