@@ -47,7 +47,7 @@ nmap yp a<C-r>0<ESC>
 "nmap ypat cat<C-r>0<ESC>
 
 "Paste from clipboard
-"nmap cpp a<C-r>*<ESC>
+nmap cpp a<C-r>*<ESC>
 
 "TODO cr> and <
 "Replace by clipboard data
@@ -75,6 +75,7 @@ nmap yp a<C-r>0<ESC>
 "nmap cpa< ca<<C-r>*<ESC>
 "nmap cpat cat<C-r>*<ESC>
 
-nmap c>. f.a
-nmap d>. f.lD
+"TODO idea below
+"nmap c>. f.a
+"nmap d>. f.lD
 
