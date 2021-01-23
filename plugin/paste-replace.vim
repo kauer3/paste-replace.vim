@@ -1,4 +1,4 @@
-"Adr" keybindings to function and add function to clipboard replace
+"Add keybindings to function and add function to clipboard replace
 "too
 "function! YRRedirect()
 	"let l:char = nr2char(getchar())
@@ -24,8 +24,10 @@ nmap <expr> cr> "f" . nr2char(getchar()) . "C<C-r>*<ESC>"
 nmap <expr> cr< "F" . nr2char(getchar()) . "C<C-r>*<ESC>"
 
 
+"Used for test
 nmap 8 :echo "hello"<CR>
-"Paste from clipboard
+
+"Paste vim "0 register
 nmap yp a<C-r>0<ESC>
 
 "TODO yp< and paraghaph
