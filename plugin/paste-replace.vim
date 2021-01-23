@@ -8,12 +8,20 @@
 		"return yra
 	"endif
 "endfunction
-
+"TODO do search backwards <
+"Maybe do two signs (>>) to show direction to search and to paste/replace, and
+"in that case maybe don't use the r
 nmap <expr> yr YRRedirect()
 nmap <expr> yri "ci" . nr2char(getchar()) . "<C-r>0<ESC>"
 nmap <expr> yra "ca" . nr2char(getchar()) . "<C-r>0<ESC>"
+nmap <expr> yr> "f" . nr2char(getchar()) . "C<C-r>0<ESC>"
+nmap <expr> yr< "F" . nr2char(getchar()) . "C<C-r>0<ESC>"
 nmap <expr> cri "ci" . nr2char(getchar()) . "<C-r>*<ESC>"
 nmap <expr> cra "ca" . nr2char(getchar()) . "<C-r>*<ESC>"
+nmap <expr> cr> "f" . nr2char(getchar()) . "C<C-r>*<ESC>"
+nmap <expr> cr< "F" . nr2char(getchar()) . "C<C-r>*<ESC>"
+nmap <expr> cr> "f" . nr2char(getchar()) . "C<C-r>*<ESC>"
+nmap <expr> cr< "F" . nr2char(getchar()) . "C<C-r>*<ESC>"
 
 
 nmap 8 :echo "hello"<CR>
@@ -22,8 +30,8 @@ nmap yp a<C-r>0<ESC>
 
 "TODO yp< and paraghaph
 "Replace by yanked
-nmap yr> lC<C-r>0<ESC>
-nmap yrp cc<C-r>0<ESC>
+nmap yR C<C-r>0<ESC>
+nmap yrr cc<C-r>0<ESC>
 nmap yrl cl<C-r>0<ESC>
 nmap yrw cw<C-r>0<ESC>
 "nmap yriw ciw<C-r>0<ESC>
@@ -47,16 +55,16 @@ nmap yrW cW<C-r>0<ESC>
 "nmap ypat cat<C-r>0<ESC>
 
 "Paste from clipboard
-nmap cpp a<C-r>*<ESC>
+nmap cp a<C-r>*<ESC>
 
 "TODO cr> and <
 "Replace by clipboard data
-nmap cpa lC<C-r>*<ESC>
-nmap cpp cc<C-r>*<ESC>
-nmap cpl cl<C-r>*<ESC>
-nmap cpw cw<C-r>*<ESC>
-"nmap cpiw ciw<C-r>*<ESC>
-nmap cpW cW<C-r>*<ESC>
+nmap cR C<C-r>*<ESC>
+nmap crr cc<C-r>*<ESC>
+nmap crl cl<C-r>*<ESC>
+nmap crw cw<C-r>*<ESC>
+"nmap rpiw ciw<C-r>*<ESC>
+nmap crW cW<C-r>*<ESC>
 "nmap cpiW ciW<C-r>*<ESC>
 "nmap cpi" ci"<C-r>*<ESC>
 "nmap cpi' ci'<C-r>*<ESC>
