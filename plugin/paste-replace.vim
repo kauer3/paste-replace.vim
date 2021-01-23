@@ -3,7 +3,6 @@ function! YRRedirect()
 	let l:char = nr2char(getchar())
 	if char == 'i'
 		return yri
-	endif
 	elseif char == 'a'
 		return yra
 	endif
