@@ -1,12 +1,16 @@
 
-function! PRRedirect()
+function! YRRedirect()
 	let l:char = nr2char(getchar())
 	if char == 'i'
-		return yri"
+		return yri
 	endif
+	elseif char == 'a'
+		return yra
+	endif
+"Add other "yr" keybindings
 endfunction
 
-nmap <expr> yr PRRedirect()
+"nmap <expr> yr YRRedirect()
 nmap <expr> yri "ci" . nr2char(getchar()) . "<C-r>0<ESC>"
 nmap <expr> yra "ca" . nr2char(getchar()) . "<C-r>0<ESC>"
 nmap <expr> cri "ci" . nr2char(getchar()) . "<C-r>*<ESC>"
@@ -73,7 +77,6 @@ nmap cpw cw<C-r>*<ESC>
 "nmap cpat cat<C-r>*<ESC>
 
 "{text(more text)[this some more text]. text }
-"
 
 nmap c>. f.a
 nmap d>. f.lD
