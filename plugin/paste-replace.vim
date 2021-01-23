@@ -51,10 +51,10 @@ nmap yp a<C-r>0<ESC>
 
 "TODO cr> and <
 "Replace by clipboard data
-nmap cpa lC<C-r>*<ESC>
-nmap cpp cc<C-r>*<ESC>
-nmap cpl cl<C-r>*<ESC>
-nmap cpw cw<C-r>*<ESC>
+"nmap cpa lC<C-r>*<ESC>
+"nmap cpp cc<C-r>*<ESC>
+"nmap cpl cl<C-r>*<ESC>
+"nmap cpw cw<C-r>*<ESC>
 "nmap cpiw ciw<C-r>*<ESC>
 "nmap cpW cW<C-r>*<ESC>
 "nmap cpiW ciW<C-r>*<ESC>
