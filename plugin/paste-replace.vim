@@ -75,8 +75,6 @@ nmap cpw cw<C-r>*<ESC>
 "nmap cpa< ca<<C-r>*<ESC>
 "nmap cpat cat<C-r>*<ESC>
 
-"{text(more text)[this some more text]. text }
-
 nmap c>. f.a
 nmap d>. f.lD
 
