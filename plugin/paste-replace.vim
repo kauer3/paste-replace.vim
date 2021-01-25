@@ -23,10 +23,6 @@ nmap <expr> cra "ca" . nr2char(getchar()) . "<C-r>*<ESC>"
 nmap <expr> cr> "f" . nr2char(getchar()) . "C<C-r>*<ESC>"
 nmap <expr> cr< "F" . nr2char(getchar()) . "C<C-r>*<ESC>"
 
-
-"Used for test
-"nmap 8 :echo "hello"<CR>
-
 "Paste vim "0 register
 nmap yp a<C-r>0<ESC>
 
