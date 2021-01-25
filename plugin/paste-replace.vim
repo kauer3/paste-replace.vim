@@ -20,8 +20,6 @@ nmap <expr> cri "ci" . nr2char(getchar()) . "<C-r>*<ESC>"
 nmap <expr> cra "ca" . nr2char(getchar()) . "<C-r>*<ESC>"
 nmap <expr> cr> "f" . nr2char(getchar()) . "C<C-r>*<ESC>"
 nmap <expr> cr< "F" . nr2char(getchar()) . "C<C-r>*<ESC>"
-nmap <expr> cr> "f" . nr2char(getchar()) . "C<C-r>*<ESC>"
-nmap <expr> cr< "F" . nr2char(getchar()) . "C<C-r>*<ESC>"
 
 
 "Used for test
