@@ -13,7 +13,7 @@
 "Maybe do two signs (>>) to show direction to search and to paste/replace, and
 "in that case maybe don't use the r
 "nmap <expr> yr YRRedirect()
-nmap <expr> yrp "ci" . nr2char(getchar()) . "<C-r>0<ESC>"
+"nmap <expr> yrp "ci" . nr2char(getchar()) . "<C-r>0<ESC>"
 nmap <expr> yri "ci" . nr2char(getchar()) . "<C-r>0<ESC>"
 nmap <expr> yra "ca" . nr2char(getchar()) . "<C-r>0<ESC>"
 nmap <expr> yr> "f" . nr2char(getchar()) . "C<C-r>0<ESC>"
