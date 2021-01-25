@@ -1,19 +1,33 @@
 "Add keybindings to function and add function to clipboard replace
 "too
-"function! YRRedirect()
-	"let l:char = nr2char(getchar())
-	"if char == 'i'
-		"return execute nmap <expr> yri "ci" . nr2char(getchar()) . "<C-r>0<ESC>"
-	"elseif char == 'a'
-		"return yra
-	"endif
-"endfunction
+function! YRRedirect()
+	let l:char = nr2char(getchar())
+	if char == 'i'
+		return execute nmap <expr> yri "ci" . nr2char(getchar()) . "<C-r>0<ESC>"
+	elseif char == 'a'
+		return yra
+	endif
+endfunction
+
+function! GetNChar()
+	let l:number = 3
+	let l:string = ""
+
+	while l:number > 0
+		let l:string .= nr2char(getchar())
+		let l:number -= 1
+	endwhile
+
+	echo l:string
+	return :echo "vkk"
+endfunction
+
+nnoremap gs :call GetNChar()<CR>
 
 "TODO do search backwards <
 "Maybe do two signs (>>) to show direction to search and to paste/replace, and
 "in that case maybe don't use the r
-"nmap <expr> yr YRRedirect()
-"nmap <expr> yrp "ci" . nr2char(getchar()) . "<C-r>0<ESC>"
+"nmap <expr> <expr> crf YRRedirect()
 nmap <expr> yri "ci" . nr2char(getchar()) . "<C-r>0<ESC>"
 nmap <expr> yra "ca" . nr2char(getchar()) . "<C-r>0<ESC>"
 nmap <expr> yr> "f" . nr2char(getchar()) . "C<C-r>0<ESC>"
@@ -22,6 +36,7 @@ nmap <expr> cri "ci" . nr2char(getchar()) . "<C-r>*<ESC>"
 nmap <expr> cra "ca" . nr2char(getchar()) . "<C-r>*<ESC>"
 nmap <expr> cr> "f" . nr2char(getchar()) . "C<C-r>*<ESC>"
 nmap <expr> cr< "F" . nr2char(getchar()) . "C<C-r>*<ESC>"
+nmap <expr> <expr> <expr> crf Execute {command}v" . nr2char(getchar()) . nr2char(getchar()) . "c<C-r>*<ESC>"
 
 "Paste vim "0 register
 nmap yp a<C-r>0<ESC>
