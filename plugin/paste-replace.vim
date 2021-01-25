@@ -1,3 +1,13 @@
+"Add keybindings to function and add function to clipboard replace
+"too
+"function! YRRedirect()
+	"let l:char = nr2char(getchar())
+	"if char == 'i'
+		"return execute nmap <expr> yri "ci" . nr2char(getchar()) . "<C-r>0<ESC>"
+	"elseif char == 'a'
+		"return yra
+	"endif
+"endfunction
 
 "TODO do search backwards <
 "Maybe do two signs (>>) to show direction to search and to paste/replace, and
