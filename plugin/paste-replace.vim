@@ -8,6 +8,7 @@
 		"return yra
 	"endif
 "endfunction
+
 "TODO do search backwards <
 "Maybe do two signs (>>) to show direction to search and to paste/replace, and
 "in that case maybe don't use the r
