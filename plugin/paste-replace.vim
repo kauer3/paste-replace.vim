@@ -23,7 +23,7 @@ nmap <expr> cr< "F" . nr2char(getchar()) . "C<C-r>*<ESC>"
 
 
 "Used for test
-nmap 8 :echo "hello"<CR>
+"nmap 8 :echo "hello"<CR>
 
 "Paste vim "0 register
 nmap yp a<C-r>0<ESC>
