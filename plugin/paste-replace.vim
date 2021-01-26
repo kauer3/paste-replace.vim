@@ -52,7 +52,7 @@ function! GetNChar()
 	return
 endfunction
 
-nnoremap cr :call GetNChar()<CR>
+"nnoremap cr :call GetNChar()<CR>
 
 "TODO do search backwards <
 "Maybe do two signs (>>) to show direction to search and to paste/replace, and
