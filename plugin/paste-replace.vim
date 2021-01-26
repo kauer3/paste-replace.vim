@@ -1,28 +1,58 @@
-"Add keybindings to function and add function to clipboard replace
+"add keybindings to function and add function to clipboard replace
 "too
-function! YRRedirect()
-	let l:char = nr2char(getchar())
-	if char == 'i'
-		return execute nmap <expr> yri "ci" . nr2char(getchar()) . "<C-r>0<ESC>"
-	elseif char == 'a'
-		return yra
-	endif
-endfunction
+"function! YRRedirect()
+	"let l:char = nr2char(getchar())
+	"if char == 'i'
+		"return execute nmap <expr> yri "ci" . nr2char(getchar()) . "<C-r>0<ESC>"
+	"elseif char == 'a'
+		"return yra
+	"endif
+"endfunction
 
 function! GetNChar()
-	let l:number = 3
-	let l:string = ""
+	":echo "Clipboard replace: "
+	let l:search1 = getchar()
+	:echo type(l:search1)
 
-	while l:number > 0
-		let l:string .= nr2char(getchar())
-		let l:number -= 1
-	endwhile
+	if type(l:search1) == type(0)
+		let l:counter1 = nr2char(l:search1)
+		":echo "Clipboard replace: " . l:counter1
+		let l:buffer = l:search1
+		while type(l:buffer) == type(0)
+			let l:buffer = getchar()
+			let l:counter1 .= nr2char(l:buffer)
+			":echo "Clipboard replace: " . l:counter1
+		endwhile
+		l:search1 = nr2char(l:buffer)
+	else
+		let l:counter1 = 1
+	endif
 
-	echo l:string
-	return :echo "vkk"
+	let l:character1 = nr2char(getchar())
+	"if l:search1 == "f"
+		":echo "Clipboard replace: " . l:counter1
+	let l:search2 = getchar()
+
+	if type(l:search2) == type(0)
+		let l:counter2 = nr2char(l:search1)
+		:echo "Clipboard replace: " . l:counter2
+		let l:buffer = l:search2
+		while type(l:buffer) == 0
+			l:buffer = getchar()
+			l:counter2 .= nr2char(l:buffer)
+			:echo "Clipboard replace: " . l:counter2
+		endwhile
+		l:search2 = l:buffer
+	else
+		let l:counter2 = 1
+	endif
+	let l:character2 = nr2char(getchar())
+
+	execute "normal! m`" . l:counter1 . l:search1 . l:character1 . "v``" . l:counter2 . l:search2 . l:character2
+	return
 endfunction
 
-nnoremap gs :call GetNChar()<CR>
+nnoremap cr :call GetNChar()<CR>
 
 "TODO do search backwards <
 "Maybe do two signs (>>) to show direction to search and to paste/replace, and
@@ -36,7 +66,7 @@ nmap <expr> cri "ci" . nr2char(getchar()) . "<C-r>*<ESC>"
 nmap <expr> cra "ca" . nr2char(getchar()) . "<C-r>*<ESC>"
 nmap <expr> cr> "f" . nr2char(getchar()) . "C<C-r>*<ESC>"
 nmap <expr> cr< "F" . nr2char(getchar()) . "C<C-r>*<ESC>"
-nmap <expr> <expr> <expr> crf Execute {command}v" . nr2char(getchar()) . nr2char(getchar()) . "c<C-r>*<ESC>"
+"nmap <expr> <expr> <expr> crf "f" . nr2char(getchar()) . "v" . nr2char(getchar()) . nr2char(getchar()) . "c<C-r>*<ESC>"
 
 "Paste vim "0 register
 nmap yp a<C-r>0<ESC>
