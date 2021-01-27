@@ -30,7 +30,6 @@ nmap <expr> cri "ci" . nr2char(getchar()) . "<C-r>*<ESC>"
 nmap <expr> cra "ca" . nr2char(getchar()) . "<C-r>*<ESC>"
 nmap <expr> cr> "f" . nr2char(getchar()) . "C<C-r>*<ESC>"
 nmap <expr> cr< "F" . nr2char(getchar()) . "v^c<C-r>0<ESC>"
-"nmap <expr> <expr> <expr> crf "f" . nr2char(getchar()) . "v" . nr2char(getchar()) . nr2char(getchar()) . "c<C-r>*<ESC>"
 
 "Paste vim "0 register
 nmap yp a<C-r>0<ESC>
