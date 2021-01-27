@@ -1,6 +1,5 @@
 
 function! SearchAndReplace(reg)
-	":echo "Clipboard replace: "
 	let l:search1 = nr2char(getchar())
 	:echo type(a:reg)
 
