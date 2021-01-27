@@ -1,58 +1,22 @@
-"add keybindings to function and add function to clipboard replace
-"too
-"function! YRRedirect()
-	"let l:char = nr2char(getchar())
-	"if char == 'i'
-		"return execute nmap <expr> yri "ci" . nr2char(getchar()) . "<C-r>0<ESC>"
-	"elseif char == 'a'
-		"return yra
-	"endif
-"endfunction
 
-function! GetNChar()
+function! SearchAndReplace(reg)
 	":echo "Clipboard replace: "
-	let l:search1 = getchar()
-	:echo type(l:search1)
-
-	if type(l:search1) == type(0)
-		let l:counter1 = nr2char(l:search1)
-		":echo "Clipboard replace: " . l:counter1
-		let l:buffer = l:search1
-		while type(l:buffer) == type(0)
-			let l:buffer = getchar()
-			let l:counter1 .= nr2char(l:buffer)
-			":echo "Clipboard replace: " . l:counter1
-		endwhile
-		l:search1 = nr2char(l:buffer)
-	else
-		let l:counter1 = 1
-	endif
+	let l:search1 = nr2char(getchar())
+	:echo type(a:reg)
 
 	let l:character1 = nr2char(getchar())
-	"if l:search1 == "f"
-		":echo "Clipboard replace: " . l:counter1
-	let l:search2 = getchar()
-
-	if type(l:search2) == type(0)
-		let l:counter2 = nr2char(l:search1)
-		:echo "Clipboard replace: " . l:counter2
-		let l:buffer = l:search2
-		while type(l:buffer) == 0
-			l:buffer = getchar()
-			l:counter2 .= nr2char(l:buffer)
-			:echo "Clipboard replace: " . l:counter2
-		endwhile
-		l:search2 = l:buffer
-	else
-		let l:counter2 = 1
-	endif
+	let l:search2 = nr2char(getchar())
 	let l:character2 = nr2char(getchar())
 
-	execute "normal! m`" . l:counter1 . l:search1 . l:character1 . "v``" . l:counter2 . l:search2 . l:character2
-	return
+	execute "normal m`" . l:search1 . l:character1 . "v``" . l:search2 . l:character2
+	call feedkeys("c")
+	call feedkeys("\<C-r>")
+	call feedkeys(a:reg)
+	call feedkeys("\<ESC>")
 endfunction
 
-"nnoremap cr :call GetNChar()<CR>
+nnoremap <silent> cs :call SearchAndReplace("*")<CR>
+nnoremap <silent> ys :call SearchAndReplace("0")<CR>
 
 "TODO do search backwards <
 "Maybe do two signs (>>) to show direction to search and to paste/replace, and
@@ -61,11 +25,11 @@ endfunction
 nmap <expr> yri "ci" . nr2char(getchar()) . "<C-r>0<ESC>"
 nmap <expr> yra "ca" . nr2char(getchar()) . "<C-r>0<ESC>"
 nmap <expr> yr> "f" . nr2char(getchar()) . "C<C-r>0<ESC>"
-nmap <expr> yr< "F" . nr2char(getchar()) . "C<C-r>0<ESC>"
+nmap <expr> yr< "F" . nr2char(getchar()) . "v^c<C-r>0<ESC>"
 nmap <expr> cri "ci" . nr2char(getchar()) . "<C-r>*<ESC>"
 nmap <expr> cra "ca" . nr2char(getchar()) . "<C-r>*<ESC>"
 nmap <expr> cr> "f" . nr2char(getchar()) . "C<C-r>*<ESC>"
-nmap <expr> cr< "F" . nr2char(getchar()) . "C<C-r>*<ESC>"
+nmap <expr> cr< "F" . nr2char(getchar()) . "v^c<C-r>0<ESC>"
 "nmap <expr> <expr> <expr> crf "f" . nr2char(getchar()) . "v" . nr2char(getchar()) . nr2char(getchar()) . "c<C-r>*<ESC>"
 
 "Paste vim "0 register
