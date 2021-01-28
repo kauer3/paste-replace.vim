@@ -1,39 +1,56 @@
-
 function! SearchAndReplace(reg)
-	let l:search1 = nr2char(getchar())
-	:echo type(a:reg)
+	if a:reg == "*"
+		let l:msg = "Clipboard search and replace... enter search method (f, t, F, T)"
+	else
+		let l:msg = "Yank search and replace... enter search method (f, t, F, T)"
+	endif
+	:echon l:msg 
+	let l:search1 = getchar()
+	if l:search1 == "27"
+		return
+	elseif l:search1 != "102" && l:search1 != "70" && l:search1 != "116" && l:search1 != "84"
+		:echon "Invalid search method"
+		return
+	endif
+	let l:character1 = getchar()
+	if l:character1 == "27"
+		return
+	endif
+	let l:search2 = getchar()
+	if l:search2 == "27"
+		return
+	endif
+	let l:character2 = getchar()
+	if l:character2 == "27"
+		return
+	endif
 
-	let l:character1 = nr2char(getchar())
-	let l:search2 = nr2char(getchar())
-	let l:character2 = nr2char(getchar())
-
-	execute "normal m`" . l:search1 . l:character1 . "v``" . l:search2 . l:character2
+	execute "normal mp" . nr2char(l:search1) . nr2char(l:character1) . "v`p" . nr2char(l:search2) . nr2char(l:character2)
 	call feedkeys("c")
 	call feedkeys("\<C-r>")
 	call feedkeys(a:reg)
 	call feedkeys("\<ESC>")
+	call feedkeys("`p")
 endfunction
 
-nnoremap <silent> cs :call SearchAndReplace("*")<CR>
-nnoremap <silent> ys :call SearchAndReplace("0")<CR>
+nnoremap <silent> csr :call SearchAndReplace("*")<CR>
+nnoremap <silent> ysr :call SearchAndReplace("0")<CR>
 
 "TODO do search backwards <
 "Maybe do two signs (>>) to show direction to search and to paste/replace, and
-"in that case maybe don't use the r
 "nmap <expr> <expr> crf YRRedirect()
 nmap <expr> yri "ci" . nr2char(getchar()) . "<C-r>0<ESC>"
 nmap <expr> yra "ca" . nr2char(getchar()) . "<C-r>0<ESC>"
-nmap <expr> yr> "f" . nr2char(getchar()) . "C<C-r>0<ESC>"
-nmap <expr> yr< "F" . nr2char(getchar()) . "v^c<C-r>0<ESC>"
+nmap <expr> <expr> yr> nr2char(getchar()) . nr2char(getchar()) . "C<C-r>0<ESC>"
+nmap <expr> <expr> yr< nr2char(getchar()) . nr2char(getchar()) . "v^c<C-r>0<ESC>"
 nmap <expr> cri "ci" . nr2char(getchar()) . "<C-r>*<ESC>"
 nmap <expr> cra "ca" . nr2char(getchar()) . "<C-r>*<ESC>"
-nmap <expr> cr> "f" . nr2char(getchar()) . "C<C-r>*<ESC>"
-nmap <expr> cr< "F" . nr2char(getchar()) . "v^c<C-r>0<ESC>"
+nmap <expr> <expr> cr> nr2char(getchar()) . nr2char(getchar()) . "C<C-r>*<ESC>"
+nmap <expr> <expr> cr< nr2char(getchar()) . nr2char(getchar()) . "v^c<C-r>*<ESC>"
 
 "Paste vim "0 register
 nmap yp a<C-r>0<ESC>
 
-"TODO yp< and paraghaph
 "Replace by yanked
 nmap yR C<C-r>0<ESC>
 nmap yrr cc<C-r>0<ESC>
@@ -62,7 +79,6 @@ nmap yrW cW<C-r>0<ESC>
 "Paste from clipboard
 nmap cp a<C-r>*<ESC>
 
-"TODO cr> and <
 "Replace by clipboard data
 nmap cR C<C-r>*<ESC>
 nmap crr cc<C-r>*<ESC>
