@@ -36,9 +36,6 @@ endfunction
 nnoremap <silent> csr :call SearchAndReplace("*")<CR>
 nnoremap <silent> ysr :call SearchAndReplace("0")<CR>
 
-"TODO do search backwards <
-"Maybe do two signs (>>) to show direction to search and to paste/replace, and
-"nmap <expr> <expr> crf YRRedirect()
 nmap <expr> yri "ci" . nr2char(getchar()) . "<C-r>0<ESC>"
 nmap <expr> yra "ca" . nr2char(getchar()) . "<C-r>0<ESC>"
 nmap <expr> <expr> yr> nr2char(getchar()) . nr2char(getchar()) . "C<C-r>0<ESC>"
