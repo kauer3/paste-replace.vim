@@ -50,58 +50,27 @@ nmap yp a<C-r>0<ESC>
 
 "Replace by yanked
 nmap yR C<C-r>0<ESC>
+nmap yrR d^"0P<ESC>
 nmap yrr cc<C-r>0<ESC>
 nmap yrl cl<C-r>0<ESC>
 nmap yrw cw<C-r>0<ESC>
 "nmap yriw ciw<C-r>0<ESC>
 nmap yrW cW<C-r>0<ESC>
-"nmap ypiW ciW<C-r>0<ESC>
-"nmap ypi" ci"<C-r>0<ESC>
-"nmap ypi' ci'<C-r>0<ESC>
-"nmap ypi( ci(<C-r>0<ESC>
-"nmap ypi[ ci[<C-r>0<ESC>
-"nmap ypi{ ci{<C-r>0<ESC>
-"nmap ypi< ci<<C-r>0<ESC>
-"nmap ypit cit<C-r>0<ESC>
-"nmap ypaw caw<C-r>0<ESC>
-"nmap ypaW caW<C-r>0<ESC>
-"nmap ypa" ca"<C-r>0<ESC>
-"nmap ypa' ca'<C-r>0<ESC>
-"nmap ypa( ca(<C-r>0<ESC>
-"nmap ypa[ ca[<C-r>0<ESC>
-"nmap ypa{ ca{<C-r>0<ESC>
-"nmap ypa< ca<<C-r>0<ESC>
-"nmap ypat cat<C-r>0<ESC>
 
 "Paste from clipboard
 nmap cp a<C-r>*<ESC>
 
 "Replace by clipboard data
 nmap cR C<C-r>*<ESC>
+nmap crR d^"*P<ESC>
 nmap crr cc<C-r>*<ESC>
 nmap crl cl<C-r>*<ESC>
 nmap crw cw<C-r>*<ESC>
 "nmap rpiw ciw<C-r>*<ESC>
 nmap crW cW<C-r>*<ESC>
-"nmap cpiW ciW<C-r>*<ESC>
-"nmap cpi" ci"<C-r>*<ESC>
-"nmap cpi' ci'<C-r>*<ESC>
-"nmap cpi( ci(<C-r>*<ESC>
-"nmap cpi[ ci[<C-r>*<ESC>
-"nmap cpi{ ci{<C-r>*<ESC>
-"nmap cpi< ci<<C-r>*<ESC>
-"nmap cpit cit<C-r>*<ESC>
-"nmap cpaw caw<C-r>*<ESC>
-"nmap cpaW caW<C-r>*<ESC>
-"nmap cpa" ca"<C-r>*<ESC>
-"nmap cpa' ca'<C-r>*<ESC>
-"nmap cpa( ca(<C-r>*<ESC>
-"nmap cpa[ ca[<C-r>*<ESC>
-"nmap cpa{ ca{<C-r>*<ESC>
-"nmap cpa< ca<<C-r>*<ESC>
-"nmap cpat cat<C-r>*<ESC>
 
 "TODO idea below
 "nmap c>. f.a
 "nmap d>. f.lD
 
+"Add "Y" to yank from cursor until the end of the line
