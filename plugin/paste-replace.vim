@@ -72,3 +72,5 @@ nmap crW cW<C-r>*<ESC>
 "TODO idea below
 "nmap c>. f.a
 "nmap d>. f.lD
+
+map Y y$
