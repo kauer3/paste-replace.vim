@@ -72,5 +72,3 @@ nmap crW cW<C-r>*<ESC>
 "TODO idea below
 "nmap c>. f.a
 "nmap d>. f.lD
-
-"Add "Y" to yank from cursor until the end of the line
