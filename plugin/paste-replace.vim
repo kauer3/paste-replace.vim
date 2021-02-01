@@ -73,4 +73,5 @@ nmap crW cW<C-r>*<ESC>
 "nmap c>. f.a
 "nmap d>. f.lD
 
+"Yank untill the end of the line
 map Y y$
