@@ -30,41 +30,59 @@ function! SearchAndReplace(reg)
 	if l:character2 == "27"
 		return
 	endif
-	" TODO make set paste and nopaste work to prevent auto indent on paste
-	set paste
+
+	" set paste
 	execute "normal mp" . nr2char(l:search1) . nr2char(l:character1) . "v`p" . nr2char(l:search2) . nr2char(l:character2)
-	call feedkeys("c")
-	call feedkeys("\<C-r>")
+	" call feedkeys("c")
+	call feedkeys('"')
 	call feedkeys(a:reg)
+	call feedkeys("p")
 	call feedkeys("\<ESC>")
 	call feedkeys("`p")
-	set nopaste
+	" set nopaste
 endfunction
 
-nnoremap <silent> csr :call SearchAndReplace("*")<CR>
+nnoremap csr :call SearchAndReplace("*")<CR>
 nnoremap ysr :call SearchAndReplace("0")<CR>
 
 nnoremap <silent> <expr> yri ":set paste<CR>ci" . nr2char(getchar()) . "<C-r>0<ESC>:set nopaste<CR>"
 nnoremap <silent> <expr> yra ":set paste<CR>ca" . nr2char(getchar()) . "<C-r>0<ESC>:set nopaste<CR>"
-nnoremap <silent> <expr> yr "c" . nr2char(getchar()) . "<C-r>0<ESC>"
+" nnoremap <silent> <expr> yra "va" . nr2char(getchar()) . '"0p'
+nnoremap <silent> <expr> yr ":set paste<CR>c" . nr2char(getchar()) . "<C-r>0<ESC>:set nopaste<CR>"
 nnoremap <silent> <expr> <expr> yr> nr2char(getchar()) . nr2char(getchar()) . "C<C-r>0<ESC>"
 nnoremap <silent> <expr> <expr> yr< nr2char(getchar()) . nr2char(getchar()) . "v^c<C-r>0<ESC>"
-nnoremap <silent> <expr> cri ":set paste<CR>ci" . nr2char(getchar()) . "<C-r>*<ESC>:set nopaste<CR>"
+nnoremap <silent> <expr> yrf ":set paste<CR>cf" . nr2char(getchar()) . "<C-r>*<ESC>:set nopaste<CR>"
+nnoremap <silent> <expr> yrF ":set paste<CR>cF" . nr2char(getchar()) . "<C-r>*<ESC>:set nopaste<CR>"
+nnoremap <silent> <expr> yrt ":set paste<CR>ct" . nr2char(getchar()) . "<C-r>*<ESC>:set nopaste<CR>"
+nnoremap <silent> <expr> yrT ":set paste<CR>cT" . nr2char(getchar()) . "<C-r>*<ESC>:set nopaste<CR>"
+nnoremap <silent> yr<ESC> :echo('Replacement canceled')<CR>
+
+nnoremap <silent> <expr> cri "ci" . nr2char(getchar()) . "<C-r>*<ESC>"
 nnoremap <silent> <expr> cra ":set paste<CR>ca" . nr2char(getchar()) . "<C-r>*<ESC>"
+nnoremap <silent> <expr> cr ":set paste<CR>c" . nr2char(getchar()) . "<C-r>*<ESC>:set nopaste<CR>"
+nnoremap <silent> cr<ESC> :echo('Replacement canceled')<CR>
 nnoremap <silent> <expr> <expr> cr> nr2char(getchar()) . nr2char(getchar()) . "C<C-r>*<ESC>"
 nnoremap <silent> <expr> <expr> cr< nr2char(getchar()) . nr2char(getchar()) . "v^c<C-r>*<ESC>"
-nnoremap <silent> <expr> crf . nr2char(getchar()) . "C<C-r>*<ESC>"
-nnoremap <silent> <expr> cr "c" . nr2char(getchar()) . "<C-r>*<ESC>"
+nnoremap <silent> <expr> crf ":set paste<CR>cf" . nr2char(getchar()) . "<C-r>*<ESC>:set nopaste<CR>"
+nnoremap <silent> <expr> crF ":set paste<CR>cF" . nr2char(getchar()) . "<C-r>*<ESC>:set nopaste<CR>"
+nnoremap <silent> <expr> crt ":set paste<CR>ct" . nr2char(getchar()) . "<C-r>*<ESC>:set nopaste<CR>"
+nnoremap <silent> <expr> crT ":set paste<CR>cT" . nr2char(getchar()) . "<C-r>*<ESC>:set nopaste<CR>"
 
 "Paste vim "0 register
 nnoremap yp "0p
 
 ""Replace by yanked
-nnoremap yR C<C-r>0<ESC>
+" nnoremap yR C<C-r>0<ESC>
+
+nnoremap yR v$h"0p
+
 "nnoremap yr0 d0"0P<ESC>
 "nnoremap yr^ d^"0P<ESC>
+
 " TODO prevent yrr from adding new line
-nnoremap yrr cc<C-r>0<ESC>
+
+" nnoremap yrr :set paste<CR>cc<C-r>0<ESC>:set nopaste<CR>
+nnoremap yrr V"0p
 
 "nnoremap yrl cl<C-r>0<ESC>
 "nnoremap yrw cw<C-r>0<ESC>
@@ -73,13 +91,13 @@ nnoremap yrr cc<C-r>0<ESC>
 "vmap yr c<C-r>0<ESC>
 
 "Paste from clipboard
-nnoremap cp "*p
+nnoremap <silent> cp :set paste<CR>"*p:set nopaste<CR>
 
 ""Replace by clipboard data
-nnoremap cR C<C-r>*<ESC>
+nnoremap <silent> cR :set paste<CR>C<C-r>*<ESC>:set nopaste<CR>
 "nnoremap cr0 d0"*P<ESC>
 "nnoremap cr^ d^"*P<ESC>
-nnoremap crr cc<C-r>*<ESC>
+nnoremap <silent> crr :set paste<CR>cc<C-r>*<ESC>:set nopaste<CR>
 "nnoremap crl cl<C-r>*<ESC>
 "nnoremap crw cw<C-r>*<ESC>
 ""nnoremap rpiw ciw<C-r>*<ESC>
