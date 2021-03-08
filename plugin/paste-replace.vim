@@ -3,7 +3,6 @@ if exists("g:loaded_paste_replace")
 endif
 let g:loaded_paste_replace = 1
 
-
 function! SearchAndReplace(reg)
 	" if a:reg == "*"
 	" 	let l:msg = "Clipboard search and replace... enter search method (f, t, F, T)"
@@ -70,6 +69,7 @@ nnoremap <silent> <expr> crT ":set paste<CR>cT" . nr2char(getchar()) . "<C-r>*<E
 
 "Paste vim "0 register
 nnoremap yp "0p
+nnoremap yP "0P
 
 ""Replace by yanked
 " nnoremap yR C<C-r>0<ESC>
@@ -92,6 +92,7 @@ nnoremap yrr V"0p
 
 "Paste from clipboard
 nnoremap <silent> cp :set paste<CR>"*p:set nopaste<CR>
+nnoremap <silent> cP :set paste<CR>"*P:set nopaste<CR>
 
 ""Replace by clipboard data
 nnoremap <silent> cR :set paste<CR>C<C-r>*<ESC>:set nopaste<CR>
@@ -109,6 +110,7 @@ nnoremap <silent> crr :set paste<CR>cc<C-r>*<ESC>:set nopaste<CR>
 
 nnoremap cy "*y
 nnoremap <expr> cy '"*y' . nr2char(getchar())
+nnoremap <expr> cY "*y$
 " map <expr> cy "+y
 
 "Yank untill the end of the line
