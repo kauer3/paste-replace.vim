@@ -1,3 +1,6 @@
+
+" TODO Add count to all mappings possible
+
 if exists("g:loaded_paste_replace")
   finish
 endif
@@ -9,7 +12,7 @@ function! SearchAndReplace(reg)
 	" else
 	" 	let l:msg = "Yank search and replace... enter search method (f, t, F, T)"
 	" endif
-	" :echon l:msg 
+	" :echon l:msg
 	let l:search1 = getchar()
 	if l:search1 == "27"
 		return
@@ -24,25 +27,25 @@ function! SearchAndReplace(reg)
 	let l:search2 = getchar()
 	if l:search2 == "27"
 		return
+	elseif l:search2 != "102" && l:search2 != "70" && l:search2 != "116" && l:search2 != "84"
+		:echon "Invalid search method"
+		return
 	endif
 	let l:character2 = getchar()
 	if l:character2 == "27"
 		return
 	endif
 
-	" set paste
 	execute "normal mp" . nr2char(l:search1) . nr2char(l:character1) . "v`p" . nr2char(l:search2) . nr2char(l:character2)
-	" call feedkeys("c")
 	call feedkeys('"')
 	call feedkeys(a:reg)
 	call feedkeys("p")
 	call feedkeys("\<ESC>")
 	call feedkeys("`p")
-	" set nopaste
 endfunction
 
-nnoremap csr :call SearchAndReplace("*")<CR>
-nnoremap ysr :call SearchAndReplace("0")<CR>
+nnoremap <silent> csr :call SearchAndReplace("*")<CR>
+nnoremap <silent> ysr :call SearchAndReplace("0")<CR>
 
 nnoremap <silent> <expr> yri ":set paste<CR>ci" . nr2char(getchar()) . "<C-r>0<ESC>:set nopaste<CR>"
 nnoremap <silent> <expr> yra ":set paste<CR>ca" . nr2char(getchar()) . "<C-r>0<ESC>:set nopaste<CR>"
@@ -74,14 +77,14 @@ nnoremap yP "0P
 ""Replace by yanked
 " nnoremap yR C<C-r>0<ESC>
 
-nnoremap yR v$h"0p
+" nnoremap yR v$h"0p
+" nnoremap yR C"0p
+nnoremap <silent> yR :set paste<CR>C<C-r>0<ESC>:set nopaste<CR>
 
 "nnoremap yr0 d0"0P<ESC>
 "nnoremap yr^ d^"0P<ESC>
 
-" TODO prevent yrr from adding new line
 
-" nnoremap yrr :set paste<CR>cc<C-r>0<ESC>:set nopaste<CR>
 nnoremap yrr V"0p
 
 "nnoremap yrl cl<C-r>0<ESC>
@@ -90,15 +93,21 @@ nnoremap yrr V"0p
 "nnoremap yrW cW<C-r>0<ESC>
 "vmap yr c<C-r>0<ESC>
 
+
 "Paste from clipboard
-nnoremap <silent> cp :set paste<CR>"*p:set nopaste<CR>
-nnoremap <silent> cP :set paste<CR>"*P:set nopaste<CR>
+nnoremap <silent> cp :set paste<CR>:<C-u>execute 'normal! ' . v:count1 . '"*p'<CR>:set nopaste<CR>
+nnoremap <silent> cP :set paste<CR>:<C-u>execute 'normal! ' . v:count1 . '"*P'<CR>:set nopaste<CR>
+" nnoremap <silent> cp :set paste<CR>"*p:set nopaste<CR>
+" nnoremap <silent> cP :set paste<CR>"*P:set nopaste<CR>
 
 ""Replace by clipboard data
-nnoremap <silent> cR :set paste<CR>C<C-r>*<ESC>:set nopaste<CR>
+" nnoremap <silent> cR :set paste<CR>C<C-r>*<ESC>:set nopaste<CR>
+nnoremap <silent> cR :set paste<CR>:<C-u>execute 'normal! ' . v:count1 . 'C<C-r>*<ESC>'<CR>:set nopaste<CR>
+" nnoremap <silent> crr :set paste<CR>cc<C-r>*<ESC>:set nopaste<CR>
+nnoremap <silent> crr :set paste<CR>:<C-u>execute 'normal! ' . v:count1 . 'cc<C-r>*<ESC>'<CR>:set nopaste<CR>
+
 "nnoremap cr0 d0"*P<ESC>
 "nnoremap cr^ d^"*P<ESC>
-nnoremap <silent> crr :set paste<CR>cc<C-r>*<ESC>:set nopaste<CR>
 "nnoremap crl cl<C-r>*<ESC>
 "nnoremap crw cw<C-r>*<ESC>
 ""nnoremap rpiw ciw<C-r>*<ESC>
@@ -109,8 +118,9 @@ nnoremap <silent> crr :set paste<CR>cc<C-r>*<ESC>:set nopaste<CR>
 "nnoremap d>. f.lD
 
 nnoremap cy "*y
+vnoremap cy "*y
 nnoremap <expr> cy '"*y' . nr2char(getchar())
-nnoremap <expr> cY "*y$
+nnoremap <expr> cY '"*y$'
 " map <expr> cy "+y
 
 "Yank untill the end of the line
