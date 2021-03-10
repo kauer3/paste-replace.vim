@@ -49,7 +49,7 @@ endfunction
 nnoremap <silent> csr <Cmd>call SearchAndReplace("*")<CR>
 nnoremap <silent> ysr <Cmd>call SearchAndReplace("0")<CR>
 
-nnoremap <silent> <expr> yri <Cmd>set paste<CR><Cmd>execute 'normal! ' . v:count1 . 'ci' . getchar() . <C-r>0<CR><Cmd>set nopaste<CR>
+nnoremap <silent> <expr> yri :set paste<CR>execute 'normal! ' . v:count1 . 'ci' . getchar() . '<C-r>0:set nopaste<CR>'
 " nnoremap <silent> <expr> yri ":set paste<CR>ci" . nr2char(getchar()) . "<C-r>0<ESC>:set nopaste<CR>"
 
 " nnoremap <silent> <expr> yri ":set paste<CR>ci" . nr2char(getchar()) . "<C-r>0<ESC>:set nopaste<CR>"
