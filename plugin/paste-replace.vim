@@ -44,10 +44,15 @@ function! SearchAndReplace(reg)
 	call feedkeys("`p")
 endfunction
 
-nnoremap <silent> csr :call SearchAndReplace("*")<CR>
-nnoremap <silent> ysr :call SearchAndReplace("0")<CR>
+" nnoremap <silent> csr :call SearchAndReplace("*")<CR>
+" nnoremap <silent> ysr :call SearchAndReplace("0")<CR>
+nnoremap <silent> csr <Cmd>call SearchAndReplace("*")<CR>
+nnoremap <silent> ysr <Cmd>call SearchAndReplace("0")<CR>
 
-nnoremap <silent> <expr> yri ":set paste<CR>ci" . nr2char(getchar()) . "<C-r>0<ESC>:set nopaste<CR>"
+nnoremap <silent> <expr> yri <Cmd>set paste<CR><Cmd>execute 'normal! ' . v:count1 . 'ci' . nr2char(getchar()) . <C-r>0<CR><Cmd>set nopaste<CR>
+" nnoremap <silent> <expr> yri ":set paste<CR>ci" . nr2char(getchar()) . "<C-r>0<ESC>:set nopaste<CR>"
+
+" nnoremap <silent> <expr> yri ":set paste<CR>ci" . nr2char(getchar()) . "<C-r>0<ESC>:set nopaste<CR>"
 nnoremap <silent> <expr> yra ":set paste<CR>ca" . nr2char(getchar()) . "<C-r>0<ESC>:set nopaste<CR>"
 " nnoremap <silent> <expr> yra "va" . nr2char(getchar()) . '"0p'
 nnoremap <silent> <expr> yr ":set paste<CR>c" . nr2char(getchar()) . "<C-r>0<ESC>:set nopaste<CR>"
@@ -106,22 +111,20 @@ nnoremap <silent> cR :set paste<CR>:<C-u>execute 'normal! ' . v:count1 . 'C<C-r>
 " nnoremap <silent> crr :set paste<CR>cc<C-r>*<ESC>:set nopaste<CR>
 nnoremap <silent> crr :set paste<CR>:<C-u>execute 'normal! ' . v:count1 . 'cc<C-r>*<ESC>'<CR>:set nopaste<CR>
 
-"nnoremap cr0 d0"*P<ESC>
-"nnoremap cr^ d^"*P<ESC>
-"nnoremap crl cl<C-r>*<ESC>
-"nnoremap crw cw<C-r>*<ESC>
-""nnoremap rpiw ciw<C-r>*<ESC>
-"nnoremap crW cW<C-r>*<ESC>
+" nnoremap cy "*y
+" vnoremap cy "*y
+nnoremap <silent> <expr> cy :<C-u>execute 'normal! ' . v:count1 . '"*y . nr2char(getchar()) . <CR>'
+nnoremap <silent> cY :<C-u>execute 'normal! ' . v:count1 . '"*y$'<CR>
+vnoremap <silent> cy :<C-u>execute 'normal! ' . v:count1 . '"*y'<CR>
+
+"Yank untill the end of the line
+" map Y y$
+nnoremap <silent> Y :<C-u>execute 'normal! ' . v:count1 . 'y$'<CR>
 
 " idea below
 "nnoremap c>. f.a
 "nnoremap d>. f.lD
 
-nnoremap cy "*y
-vnoremap cy "*y
-nnoremap <expr> cy '"*y' . nr2char(getchar())
-nnoremap <expr> cY '"*y$'
-" map <expr> cy "+y
+" nnoremap <silent> <expr> cy '"*y' . nr2char(getchar())
+" nnoremap <silent> <expr> cY '"*y$'
 
-"Yank untill the end of the line
-map Y y$
