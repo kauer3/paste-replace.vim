@@ -45,28 +45,30 @@ endfunction
 
 " nnoremap <silent> csr :call SearchAndReplace("*")<CR>
 " nnoremap <silent> ysr :call SearchAndReplace("0")<CR>
-nnoremap <silent> csr <Cmd>call SearchAndReplace("*")<CR>
-nnoremap <silent> ysr <Cmd>call SearchAndReplace("0")<CR>
+nnoremap <silent> csr :call SearchAndReplace("*")<CR>
+nnoremap <silent> ysr :call SearchAndReplace("0")<CR>
 
-nnoremap <silent> <expr> yri ':set paste<CR>' execute 'normal! ' . v:count1 . 'ci' . '<C-r>0:set nopaste<CR>'
-" nnoremap <silent> <expr> yri ":set paste<CR>ci" . nr2char(getchar()) . "<C-r>0<ESC>:set nopaste<CR>"
 
-" nnoremap <silent> <expr> yri ":set paste<CR>ci" . nr2char(getchar()) . "<C-r>0<ESC>:set nopaste<CR>"
+" nnoremap <silent> cp :set paste<CR>:<C-u>execute 'normal! ' . v:count1 . '"*p'<CR>:set nopaste<CR>
+" nnoremap <silent> <expr> yri ':set paste<CR>' execute 'normal! ' . v:count1 . 'ci' . '<C-r>0:set nopaste<CR>'
+" nnoremap <expr> <silent> yri ':<C-u>execute "normal!"' . v:count1 . ci . nr2char(getchar()) . '<C-r>0<ESC>'
+
+nnoremap <silent> <expr> yri ":set paste<CR>ci" . nr2char(getchar()) . "<C-r>0<ESC>:set nopaste<CR>"
 nnoremap <silent> <expr> yra ":set paste<CR>ca" . nr2char(getchar()) . "<C-r>0<ESC>:set nopaste<CR>"
 " nnoremap <silent> <expr> yra "va" . nr2char(getchar()) . '"0p'
-nnoremap <silent> <expr> yr ":set paste<CR>c" . nr2char(getchar()) . "<C-r>0<ESC>:set nopaste<CR>"
-nnoremap <silent> <expr> <expr> yr> nr2char(getchar()) . nr2char(getchar()) . "C<C-r>0<ESC>"
-nnoremap <silent> <expr> <expr> yr< nr2char(getchar()) . nr2char(getchar()) . "v^c<C-r>0<ESC>"
-nnoremap <silent> <expr> yrf ":set paste<CR>cf" . nr2char(getchar()) . "<C-r>*<ESC>:set nopaste<CR>"
-nnoremap <silent> <expr> yrF ":set paste<CR>cF" . nr2char(getchar()) . "<C-r>*<ESC>:set nopaste<CR>"
-nnoremap <silent> <expr> yrt ":set paste<CR>ct" . nr2char(getchar()) . "<C-r>*<ESC>:set nopaste<CR>"
-nnoremap <silent> <expr> yrT ":set paste<CR>cT" . nr2char(getchar()) . "<C-r>*<ESC>:set nopaste<CR>"
-nnoremap <silent> yr<ESC> :echo('Replacement canceled')<CR>
+" nnoremap <silent> <expr> yr ":set paste<CR>c" . nr2char(getchar()) . "<C-r>0<ESC>:set nopaste<CR>"
+" nnoremap <silent> <expr> <expr> yr> nr2char(getchar()) . nr2char(getchar()) . "C<C-r>0<ESC>"
+" nnoremap <silent> <expr> <expr> yr< nr2char(getchar()) . nr2char(getchar()) . "v^c<C-r>0<ESC>"
+nnoremap <silent> <expr> yrf ":set paste<CR>cf" . nr2char(getchar()) . "<C-r>0<ESC>:set nopaste<CR>"
+nnoremap <silent> <expr> yrF ":set paste<CR>cF" . nr2char(getchar()) . "<C-r>0<ESC>:set nopaste<CR>"
+nnoremap <silent> <expr> yrt ":set paste<CR>ct" . nr2char(getchar()) . "<C-r>0<ESC>:set nopaste<CR>"
+nnoremap <silent> <expr> yrT ":set paste<CR>cT" . nr2char(getchar()) . "<C-r>0<ESC>:set nopaste<CR>"
+" nnoremap <silent> yr<ESC> :echo('Replacement canceled')<CR>
 
 nnoremap <silent> <expr> cri "ci" . nr2char(getchar()) . "<C-r>*<ESC>"
 nnoremap <silent> <expr> cra ":set paste<CR>ca" . nr2char(getchar()) . "<C-r>*<ESC>"
 nnoremap <silent> <expr> cr ":set paste<CR>c" . nr2char(getchar()) . "<C-r>*<ESC>:set nopaste<CR>"
-nnoremap <silent> cr<ESC> :echo('Replacement canceled')<CR>
+" nnoremap <silent> cr<ESC> :echo('Replacement canceled')<CR>
 nnoremap <silent> <expr> <expr> cr> nr2char(getchar()) . nr2char(getchar()) . "C<C-r>*<ESC>"
 nnoremap <silent> <expr> <expr> cr< nr2char(getchar()) . nr2char(getchar()) . "v^c<C-r>*<ESC>"
 nnoremap <silent> <expr> crf ":set paste<CR>cf" . nr2char(getchar()) . "<C-r>*<ESC>:set nopaste<CR>"
@@ -117,8 +119,8 @@ nnoremap <silent> cY :<C-u>execute 'normal! ' . v:count1 . '"*y$'<CR>
 vnoremap <silent> cy :<C-u>execute 'normal! ' . v:count1 . '"*y'<CR>
 
 "Yank untill the end of the line
-" map Y y$
-nnoremap <silent> Y :<C-u>execute 'normal! ' . v:count1 . 'y$'<CR>
+" " map Y y$
+" nnoremap <silent> Y :<C-u>execute 'normal! ' . v:count1 . 'y$'<CR>
 
 " idea below
 "nnoremap c>. f.a
