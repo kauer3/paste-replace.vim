@@ -53,7 +53,7 @@ nnoremap <silent> ysr :call SearchAndReplace("0")<CR>
 nnoremap <silent> <expr> yri ":set paste<lt>CR>:<C-u>execute 'normal!'" . v:count1 . "ci" . nr2char(getchar()) . "<C-r>0:set nopaste<lt>CR>"'
 " nnoremap <expr> <silent> yri ':<C-u>execute "normal!"' . v:count1 . ci . nr2char(getchar()) . '<C-r>0<ESC>'
 
-nnoremap <silent> <expr> cr ":set paste<lt>CR>:<C-u>execute 'normal!'" . v:count1 . "c" . nr2char(getchar()) . "<C-r>*<ESC>:set nopaste<lt>CR>"'
+nnoremap <silent> <expr> cr ":set paste<lt>CR>:<C-u>execute 'normal!'" . v:count1 . "c" . nr2char(getchar()) . "<C-r>*<lt>ESC>:set nopaste<lt>CR>"'
 " nnoremap <silent> <expr> cr ":set paste<CR>c" . nr2char(getchar()) . "<C-r>*<ESC>:set nopaste<CR>"
 
 
