@@ -73,6 +73,21 @@ function! Replace(type, ...)
 endfunction
 
 
+" nnoremap cy "*y
+function! CopyToClipboard()
+
+	let l:old_reg = getreg('"')
+	let l:old_reg_type = getregtype('"')
+
+	echom l:old_reg
+
+	let g:paste_replace_register = '"*y'
+	set operatorfunc=Replace<CR>g@
+
+	call setreg('"', old_reg, old_reg_type)
+
+endfunction
+
 
 " nnoremap <silent> cp :set paste<CR>:<C-u>execute 'normal! ' . v:count1 . '"*p'<CR>:set nopaste<CR>
 " nnoremap <silent> <expr> yri ":set paste<lt>CR>:<C-u>execute 'normal!'" . v:count1 . "ci" . input("input") . "<C-r>0:set nopaste<lt>CR>"'
@@ -87,8 +102,8 @@ nnoremap <silent> cr :let g:paste_replace_register = '"_c<c-r>*'
 nnoremap <silent> yr :let g:paste_replace_register = '"_c<c-r>0'
 	\ <bar> set operatorfunc=Replace<CR>g@
 
-" nnoremap <silent> cy :let g:paste_replace_register = '"*y'
-" 	\ <bar> set operatorfunc=Replace<CR>g@
+nnoremap <silent> cy :let g:paste_replace_register = '"*y'
+	\ <bar> set operatorfunc=Replace<CR>g@
 " nnoremap <silent> cy :<C-u>execute 'normal! ' . v:count1 . '"*y . nr2char(getchar()) . <CR>'
 
 vnoremap <silent> cr "*p
@@ -168,11 +183,6 @@ nnoremap <silent> cR :set paste<CR>:<C-u>execute 'normal! ' . v:count1 . 'C<C-r>
 " nnoremap <silent> crr :set paste<CR>cc<C-r>*<ESC>:set nopaste<CR>
 nnoremap <silent> crr :set paste<CR>:<C-u>execute 'normal! ' . v:count1 . 'cc'<C-r>*<ESC><CR>:set nopaste<CR>
 
-" nnoremap cy "*y
-nnoremap cy let g:paste_replace_default_register = ""0
-	\ <bar> echom g:paste_replace_default_register
-	" \ <bar> "*y
-	" \ <bar> set operatorfunc=Replace<CR>g@
 " nnoremap <silent> <expr> cy :<C-u>execute 'normal! ' . v:count1 . '"*y . nr2char(getchar()) . <CR>'
 nnoremap <silent> cY :<C-u>execute 'normal! ' . v:count1 . '"*y$'<CR>
 " vnoremap <silent> cy :<C-u>execute 'normal! ' . v:count1 . '"*y'<CR>
