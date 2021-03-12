@@ -188,4 +188,3 @@ vnoremap <silent> cy :<C-u>execute 'normal! ' . v:count1 . '"*y'<CR>
 
 " nnoremap <silent> <expr> cy '"*y' . nr2char(getchar())
 " nnoremap <silent> <expr> cY '"*y$'
-
