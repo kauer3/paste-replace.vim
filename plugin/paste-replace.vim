@@ -75,7 +75,7 @@ function! Replace(type)
 	if a:type ==# 'char'
 		execute "normal! `[c`]x*"
 	elseif a:type ==# 'line'
-		execute 'normal! `[v`]"*p'
+		execute 'normal! `[v`]$"*p'
 	else
 		return
 	endif
@@ -95,7 +95,7 @@ function! Replace(type)
 	" call feedkeys('"')
 	" call feedkeys(a:reg)
 	" call feedkeys("p")
-	" call feedkeys("\<ESC>")
+	" call feedkeys("\<esc>")
 	" call feedkeys("`p")
 endfunction
 
