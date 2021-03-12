@@ -78,6 +78,9 @@ function! Replace(type)
 		execute 'normal! `[v`]$"*p'
 	else
 		return
+	elseif a:type ==# 'blockwise'
+		execute 'normal! `[v`]$"*p'
+	else
 	endif
 
 
