@@ -71,7 +71,6 @@ function! Replace(type, ...)
 endfunction
 
 
-" nnoremap cy "*y
 
 function! CopyToClipboard()
 
