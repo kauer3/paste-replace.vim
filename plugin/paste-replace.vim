@@ -48,59 +48,26 @@ endfunction
 nnoremap <silent> csr :call SearchAndReplace("*")<CR>
 nnoremap <silent> ysr :call SearchAndReplace("0")<CR>
 
-function! Replace(type)
-	" let l:search1 = getchar()
-	" if l:search1 == "27"
-	" 	return
-	" elseif l:search1 != "102" && l:search1 != "70" && l:search1 != "116" && l:search1 != "84"
-	" 	:echon "Invalid search method"
-	" 	return
-	" endif
-	" let l:character1 = input("Target:")
-	" if l:character1 == "27"
-	" 	return
-	" endif
-	" let l:search2 = input("Search method:")
-	" if l:search2 == "27"
-	" 	return
-	" elseif l:search2 != "102" && l:search2 != "70" && l:search2 != "116" && l:search2 != "84"
-	" 	:echon "Invalid search method"
-	" 	return
-	" endif
-	" le l:character2 = getchar()
-	" if l:character2 == "27"
-	" 	return
-	" endif
 
-	if a:type ==# 'char'
-		execute "normal! `[c`]x*"
-	elseif a:type ==# 'line'
-		execute 'normal! `[v`]$"*p'
+function! Replace(type, ...)
+
+	set paste
+
+	if a:type == 'char'
+		execute "normal! `[v`]\"_c\<c-r>*\<esc>"
+	elseif a:type == 'line'
+		silent exe "normal! '[V']\"_c\<c-r>*\<esc>"
+	elseif a:type == 'block'
+		silent exe "normal! `[\<C-V>`]\"_c\<c-r>*\<esc>"
 	else
 		return
-	elseif a:type ==# 'blockwise'
-		execute 'normal! `[v`]$"*p'
-	else
 	endif
 
-
-	" normal `[c`]x*
+	set nopaste
 
 	echom a:type
-
-
-
-
-	" execute "normal" . v:count1 . "c" . nr2char(getchar()) . expand("<C-r>*<ESC>")<cr>
-
-
-
-	" call feedkeys('"')
-	" call feedkeys(a:reg)
-	" call feedkeys("p")
-	" call feedkeys("\<esc>")
-	" call feedkeys("`p")
 endfunction
+
 
 
 " nnoremap <silent> cp :set paste<CR>:<C-u>execute 'normal! ' . v:count1 . '"*p'<CR>:set nopaste<CR>
@@ -111,6 +78,7 @@ endfunction
 " nnoremap <silent> <expr> cr ":<C-u>execute'c'" . nr2char(getchar()) . "<C-r>*<ESC><CR>"
 
 nnoremap <silent> cr :set operatorfunc=Replace<CR>g@
+vnoremap <silent> cr :<c-u>call Replace(visualmode())<cr>
 
 " nnoremap <silent> cr :<C-u>execute "normal!" . v:count1 . "cw<C-r>*"<CR>
 " nnoremap <silent> <expr> cr ":set paste<CR>c" . nr2char(getchar()) . "<C-r>*<ESC>:set nopaste<CR>"
@@ -129,7 +97,7 @@ nnoremap <silent> <expr> yrT ":set paste<CR>cT" . nr2char(getchar()) . "<C-r>0<E
 " nnoremap <silent> yr<ESC> :echo('Replacement canceled')<CR>
 
 " nnoremap <silent> <expr> cri "ci" . nr2char(getchar()) . "<C-r>*<ESC>"
-nnoremap <silent> <expr> cra ":set paste<CR>ca" . nr2char(getchar()) . "<C-r>*<ESC>"
+" nnoremap <silent> <expr> cra ":set paste<CR>ca" . nr2char(getchar()) . "<C-r>*<ESC>"
 " nnoremap <silent> <expr> cr ":set paste<CR>c" . nr2char(getchar()) . "<C-r>*<ESC>:set nopaste<CR>"
 " nnoremap <silent> cr<ESC> :echo('Replacement canceled')<CR>
 nnoremap <silent> <expr> <expr> cr> nr2char(getchar()) . nr2char(getchar()) . "C<C-r>*<ESC>"
@@ -148,7 +116,9 @@ nnoremap yP "0P
 
 " nnoremap yR v$h"0p
 " nnoremap yR C"0p
-nnoremap <silent> yR :set paste<CR>C<C-r>0<ESC>:set nopaste<CR>
+
+" Will be enough when yr is working
+nnoremap <silent> yR yr$ 
 
 "nnoremap yr0 d0"0P<ESC>
 "nnoremap yr^ d^"0P<ESC>
@@ -166,6 +136,7 @@ nnoremap yrr V"0p
 "Paste from clipboard
 nnoremap <silent> cp :set paste<CR>:<C-u>execute 'normal! ' . v:count1 . '"*p'<CR>:set nopaste<CR>
 nnoremap <silent> cP :set paste<CR>:<C-u>execute 'normal! ' . v:count1 . '"*P'<CR>:set nopaste<CR>
+vnoremap <silent> cp "*p
 " nnoremap <silent> cp :set paste<CR>"*p:set nopaste<CR>
 " nnoremap <silent> cP :set paste<CR>"*P:set nopaste<CR>
 
