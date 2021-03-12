@@ -54,6 +54,7 @@ function! Replace(type, ...)
 	set paste
 
 	let l:reg = g:paste_replace_register
+	" echom g:paste_replace_register
 
 	if a:type == 'char'
 		silent exe "normal! `[v`]" . l:reg . "\<esc>"
@@ -68,7 +69,7 @@ function! Replace(type, ...)
 
 	set nopaste
 
-	echom a:type
+	" echom a:type
 endfunction
 
 
@@ -86,8 +87,8 @@ nnoremap <silent> cr :let g:paste_replace_register = '"_c<c-r>*'
 nnoremap <silent> yr :let g:paste_replace_register = '"_c<c-r>0'
 	\ <bar> set operatorfunc=Replace<CR>g@
 
-nnoremap <silent> cy :let g:paste_replace_register = '"*y'
-	\ <bar> set operatorfunc=Replace<CR>g@
+" nnoremap <silent> cy :let g:paste_replace_register = '"*y'
+" 	\ <bar> set operatorfunc=Replace<CR>g@
 " nnoremap <silent> cy :<C-u>execute 'normal! ' . v:count1 . '"*y . nr2char(getchar()) . <CR>'
 
 vnoremap <silent> cr "*p
@@ -168,10 +169,13 @@ nnoremap <silent> cR :set paste<CR>:<C-u>execute 'normal! ' . v:count1 . 'C<C-r>
 nnoremap <silent> crr :set paste<CR>:<C-u>execute 'normal! ' . v:count1 . 'cc'<C-r>*<ESC><CR>:set nopaste<CR>
 
 " nnoremap cy "*y
-" vnoremap cy "*y
+nnoremap cy let g:paste_replace_default_register = ""0
+	\ <bar> echom g:paste_replace_default_register
+	" \ <bar> "*y
+	" \ <bar> set operatorfunc=Replace<CR>g@
 " nnoremap <silent> <expr> cy :<C-u>execute 'normal! ' . v:count1 . '"*y . nr2char(getchar()) . <CR>'
 nnoremap <silent> cY :<C-u>execute 'normal! ' . v:count1 . '"*y$'<CR>
-vnoremap <silent> cy :<C-u>execute 'normal! ' . v:count1 . '"*y'<CR>
+" vnoremap <silent> cy :<C-u>execute 'normal! ' . v:count1 . '"*y'<CR>
 
 "Yank untill the end of the line
 " " map Y y$
