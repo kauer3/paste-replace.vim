@@ -74,6 +74,7 @@ endfunction
 
 
 " nnoremap cy "*y
+
 function! CopyToClipboard()
 
 	let l:old_reg = getreg('"')
