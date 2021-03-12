@@ -53,13 +53,16 @@ function! Replace(type, ...)
 
 	set paste
 
+	let l:reg = g:paste_replace_register
+
 	if a:type == 'char'
-		execute "normal! `[v`]\"_c\<c-r>*\<esc>"
+		silent exe "normal! `[v`]" . l:reg . "\<esc>"
 	elseif a:type == 'line'
-		silent exe "normal! '[V']\"_c\<c-r>*\<esc>"
+		silent exe "normal! '[V']" . l:reg . "\<esc>"
 	elseif a:type == 'block'
-		silent exe "normal! `[\<C-V>`]\"_c\<c-r>*\<esc>"
+		silent exe "normal! `[\<C-V>`]" . l:reg . "\<esc>"
 	else
+		set nopaste
 		return
 	endif
 
@@ -77,17 +80,35 @@ endfunction
 " nnoremap <silent> <expr> cr ":<C-u>execute 'c' . nr2char(getchar()) . '<C-r>*'"
 " nnoremap <silent> <expr> cr ":<C-u>execute'c'" . nr2char(getchar()) . "<C-r>*<ESC><CR>"
 
-nnoremap <silent> cr :set operatorfunc=Replace<CR>g@
-vnoremap <silent> cr :<c-u>call Replace(visualmode())<cr>
+nnoremap <silent> cr :let g:paste_replace_register = '"_c<c-r>*'
+	\ <bar> set operatorfunc=Replace<CR>g@
 
-" nnoremap <silent> cr :<C-u>execute "normal!" . v:count1 . "cw<C-r>*"<CR>
+nnoremap <silent> yr :let g:paste_replace_register = '"_c<c-r>0'
+	\ <bar> set operatorfunc=Replace<CR>g@
+
+nnoremap <silent> cy :let g:paste_replace_register = '"*y'
+	\ <bar> set operatorfunc=Replace<CR>g@
+" nnoremap <silent> cy :<C-u>execute 'normal! ' . v:count1 . '"*y . nr2char(getchar()) . <CR>'
+
+vnoremap <silent> cr "*p
+vnoremap <silent> yr "0p
+" vnoremap <silent> cr :let g:paste_replace_register = "*"
+" 	\ <bar> <c-u>call Replace(visualmode())<cr>
+" vnoremap <silent> yr :let g:paste_replace_register = "0"
+" 	\ <bar> <c-u>call Replace(visualmode())<cr>
+
+" nnoremap <silent> crw cw<c-r>*<ESC>
+" nnoremap <silent> yrw cw<c-r>0<ESC>
+
+" nnoremap <silent> crw :<C-u>execute "normal!" . v:count1 . "cw<C-r>*"<CR>
+" nnoremap <silent> crw :<C-u>execute "normal!cr" . v:count1 . "w"<CR>
 " nnoremap <silent> <expr> cr ":set paste<CR>c" . nr2char(getchar()) . "<C-r>*<ESC>:set nopaste<CR>"
 
 
-nnoremap <silent> <expr> yri ":set paste<CR>ci" . nr2char(getchar()) . "<C-r>0<ESC>:set nopaste<CR>"
-nnoremap <silent> <expr> yra ":set paste<CR>ca" . nr2char(getchar()) . "<C-r>0<ESC>:set nopaste<CR>"
+" nnoremap <silent> <expr> yri ":set paste<CR>ci" . nr2char(getchar()) . "<C-r>0<ESC>:set nopaste<CR>"
+" nnoremap <silent> <expr> yra ":set paste<CR>ca" . nr2char(getchar()) . "<C-r>0<ESC>:set nopaste<CR>"
 " nnoremap <silent> <expr> yra "va" . nr2char(getchar()) . '"0p'
-nnoremap <silent> <expr> yr ":set paste<CR>c" . nr2char(getchar()) . "<C-r>0<ESC>:set nopaste<CR>"
+" nnoremap <silent> <expr> yr ":set paste<CR>c" . nr2char(getchar()) . "<C-r>0<ESC>:set nopaste<CR>"
 " nnoremap <silent> <expr> <expr> yr> nr2char(getchar()) . nr2char(getchar()) . "C<C-r>0<ESC>"
 " nnoremap <silent> <expr> <expr> yr< nr2char(getchar()) . nr2char(getchar()) . "v^c<C-r>0<ESC>"
 nnoremap <silent> <expr> yrf ":set paste<CR>cf" . nr2char(getchar()) . "<C-r>0<ESC>:set nopaste<CR>"
@@ -115,10 +136,10 @@ nnoremap yP "0P
 " nnoremap yR C<C-r>0<ESC>
 
 " nnoremap yR v$h"0p
-" nnoremap yR C"0p
+nnoremap yR C"0p
 
 " Will be enough when yr is working
-nnoremap <silent> yR yr$ 
+" nnoremap <silent> yR yr$ 
 
 "nnoremap yr0 d0"0P<ESC>
 "nnoremap yr^ d^"0P<ESC>
@@ -144,11 +165,11 @@ vnoremap <silent> cp "*p
 " nnoremap <silent> cR :set paste<CR>C<C-r>*<ESC>:set nopaste<CR>
 nnoremap <silent> cR :set paste<CR>:<C-u>execute 'normal! ' . v:count1 . 'C<C-r>*<ESC>'<CR>:set nopaste<CR>
 " nnoremap <silent> crr :set paste<CR>cc<C-r>*<ESC>:set nopaste<CR>
-nnoremap <silent> crr :set paste<CR>:<C-u>execute 'normal! ' . v:count1 . 'cc<C-r>*<ESC>'<CR>:set nopaste<CR>
+nnoremap <silent> crr :set paste<CR>:<C-u>execute 'normal! ' . v:count1 . 'cc'<C-r>*<ESC><CR>:set nopaste<CR>
 
 " nnoremap cy "*y
 " vnoremap cy "*y
-nnoremap <silent> <expr> cy :<C-u>execute 'normal! ' . v:count1 . '"*y . nr2char(getchar()) . <CR>'
+" nnoremap <silent> <expr> cy :<C-u>execute 'normal! ' . v:count1 . '"*y . nr2char(getchar()) . <CR>'
 nnoremap <silent> cY :<C-u>execute 'normal! ' . v:count1 . '"*y$'<CR>
 vnoremap <silent> cy :<C-u>execute 'normal! ' . v:count1 . '"*y'<CR>
 
