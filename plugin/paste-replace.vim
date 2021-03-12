@@ -75,9 +75,10 @@ function! Replace(type)
 
 
 
-	normal! `[v`]d
+	normal `[c`]x*
 
 	echom a:type
+
 
 
 
