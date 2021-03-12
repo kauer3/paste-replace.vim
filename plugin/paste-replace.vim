@@ -37,7 +37,7 @@ function! SearchAndReplace(reg)
 
 	execute "normal mp" . nr2char(l:search1) . nr2char(l:character1) . "v`p" . nr2char(l:search2) . nr2char(l:character2)
 	call feedkeys('"')
-	cal feedkeys(a:reg)
+	call feedkeys(a:reg)
 	call feedkeys("p")
 	call feedkeys("\<ESC>")
 	call feedkeys("`p")
@@ -74,6 +74,9 @@ function! Replace(type)
 
 
 
+
+	normal! `[v`]d
+
 	echom a:type
 
 
@@ -83,7 +86,7 @@ function! Replace(type)
 
 
 	" call feedkeys('"')
-	" cal feedkeys(a:reg)
+	" call feedkeys(a:reg)
 	" call feedkeys("p")
 	" call feedkeys("\<ESC>")
 	" call feedkeys("`p")
@@ -115,7 +118,7 @@ nnoremap <silent> <expr> yrt ":set paste<CR>ct" . nr2char(getchar()) . "<C-r>0<E
 nnoremap <silent> <expr> yrT ":set paste<CR>cT" . nr2char(getchar()) . "<C-r>0<ESC>:set nopaste<CR>"
 " nnoremap <silent> yr<ESC> :echo('Replacement canceled')<CR>
 
-nnoremap <silent> <expr> cri "ci" . nr2char(getchar()) . "<C-r>*<ESC>"
+" nnoremap <silent> <expr> cri "ci" . nr2char(getchar()) . "<C-r>*<ESC>"
 nnoremap <silent> <expr> cra ":set paste<CR>ca" . nr2char(getchar()) . "<C-r>*<ESC>"
 " nnoremap <silent> <expr> cr ":set paste<CR>c" . nr2char(getchar()) . "<C-r>*<ESC>:set nopaste<CR>"
 " nnoremap <silent> cr<ESC> :echo('Replacement canceled')<CR>
