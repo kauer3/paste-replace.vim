@@ -72,7 +72,13 @@ function! Replace(type)
 	" 	return
 	" endif
 
-
+	if a:type ==# 'v'
+		execute "normal! `<v`>y"
+	elseif a:type ==# 'char'
+		execute "normal! `[v`]y"
+	else
+		return
+	endif
 
 
 	normal `[c`]x*
