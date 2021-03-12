@@ -54,7 +54,6 @@ function! Replace(type, ...)
 	set paste
 
 	let l:reg = g:paste_replace_register
-	" echom g:paste_replace_register
 
 	if a:type == 'char'
 		silent exe "normal! `[v`]" . l:reg . "\<esc>"
