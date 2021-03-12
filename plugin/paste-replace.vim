@@ -19,25 +19,25 @@ function! SearchAndReplace(reg)
 		:echon "Invalid search method"
 		return
 	endif
-	let l:character1 = getchar()
+	let l:character1 = input("Target:")
 	if l:character1 == "27"
 		return
 	endif
-	let l:search2 = getchar()
+	let l:search2 = input("Search method:")
 	if l:search2 == "27"
 		return
 	elseif l:search2 != "102" && l:search2 != "70" && l:search2 != "116" && l:search2 != "84"
 		:echon "Invalid search method"
 		return
 	endif
-	let l:character2 = getchar()
+	le l:character2 = getchar()
 	if l:character2 == "27"
 		return
 	endif
 
 	execute "normal mp" . nr2char(l:search1) . nr2char(l:character1) . "v`p" . nr2char(l:search2) . nr2char(l:character2)
 	call feedkeys('"')
-	call feedkeys(a:reg)
+	cal feedkeys(a:reg)
 	call feedkeys("p")
 	call feedkeys("\<ESC>")
 	call feedkeys("`p")
@@ -48,16 +48,62 @@ endfunction
 nnoremap <silent> csr :call SearchAndReplace("*")<CR>
 nnoremap <silent> ysr :call SearchAndReplace("0")<CR>
 
+function! Replace(type)
+	" let l:search1 = getchar()
+	" if l:search1 == "27"
+	" 	return
+	" elseif l:search1 != "102" && l:search1 != "70" && l:search1 != "116" && l:search1 != "84"
+	" 	:echon "Invalid search method"
+	" 	return
+	" endif
+	" let l:character1 = input("Target:")
+	" if l:character1 == "27"
+	" 	return
+	" endif
+	" let l:search2 = input("Search method:")
+	" if l:search2 == "27"
+	" 	return
+	" elseif l:search2 != "102" && l:search2 != "70" && l:search2 != "116" && l:search2 != "84"
+	" 	:echon "Invalid search method"
+	" 	return
+	" endif
+	" le l:character2 = getchar()
+	" if l:character2 == "27"
+	" 	return
+	" endif
+
+
+
+	echom a:type
+
+
+
+	" execute "normal" . v:count1 . "c" . nr2char(getchar()) . expand("<C-r>*<ESC>")<cr>
+
+
+
+	" call feedkeys('"')
+	" cal feedkeys(a:reg)
+	" call feedkeys("p")
+	" call feedkeys("\<ESC>")
+	" call feedkeys("`p")
+endfunction
+
 
 " nnoremap <silent> cp :set paste<CR>:<C-u>execute 'normal! ' . v:count1 . '"*p'<CR>:set nopaste<CR>
-nnoremap <silent> <expr> yri ":set paste<lt>CR>:<C-u>execute 'normal!'" . v:count1 . "ci" . nr2char(getchar()) . "<C-r>0:set nopaste<lt>CR>"'
+" nnoremap <silent> <expr> yri ":set paste<lt>CR>:<C-u>execute 'normal!'" . v:count1 . "ci" . input("input") . "<C-r>0:set nopaste<lt>CR>"'
 " nnoremap <expr> <silent> yri ':<C-u>execute "normal!"' . v:count1 . ci . nr2char(getchar()) . '<C-r>0<ESC>'
 
-nnoremap <silent> <expr> cr ":set paste"<lt>CR>:<C-u>execute 'normal!' . v:count1 . "c" . nr2char(getchar()) . "<C-r>*"<lt>ESC>:set nopaste
+" nnoremap <silent> <expr> cr ":<C-u>execute 'c' . nr2char(getchar()) . '<C-r>*'"
+" nnoremap <silent> <expr> cr ":<C-u>execute'c'" . nr2char(getchar()) . "<C-r>*<ESC><CR>"
+
+nnoremap <silent> cr :set operatorfunc=Replace<CR>g@
+
+" nnoremap <silent> cr :<C-u>execute "normal!" . v:count1 . "cw<C-r>*"<CR>
 " nnoremap <silent> <expr> cr ":set paste<CR>c" . nr2char(getchar()) . "<C-r>*<ESC>:set nopaste<CR>"
 
 
-" nnoremap <silent> <expr> yri ":set paste<CR>ci" . nr2char(getchar()) . "<C-r>0<ESC>:set nopaste<CR>"
+nnoremap <silent> <expr> yri ":set paste<CR>ci" . nr2char(getchar()) . "<C-r>0<ESC>:set nopaste<CR>"
 nnoremap <silent> <expr> yra ":set paste<CR>ca" . nr2char(getchar()) . "<C-r>0<ESC>:set nopaste<CR>"
 " nnoremap <silent> <expr> yra "va" . nr2char(getchar()) . '"0p'
 nnoremap <silent> <expr> yr ":set paste<CR>c" . nr2char(getchar()) . "<C-r>0<ESC>:set nopaste<CR>"
@@ -75,7 +121,7 @@ nnoremap <silent> <expr> cra ":set paste<CR>ca" . nr2char(getchar()) . "<C-r>*<E
 " nnoremap <silent> cr<ESC> :echo('Replacement canceled')<CR>
 nnoremap <silent> <expr> <expr> cr> nr2char(getchar()) . nr2char(getchar()) . "C<C-r>*<ESC>"
 nnoremap <silent> <expr> <expr> cr< nr2char(getchar()) . nr2char(getchar()) . "v^c<C-r>*<ESC>"
-nnoremap <silent> <expr> crf ":set paste<CR>cf" . nr2char(getchar()) . "<C-r>*<ESC>:set nopaste<CR>"
+" nnoremap <silent> <expr> crf ":set paste<CR>cf" . nr2char(getchar()) . "<C-r>*<ESC>:set nopaste<CR>"
 nnoremap <silent> <expr> crF ":set paste<CR>cF" . nr2char(getchar()) . "<C-r>*<ESC>:set nopaste<CR>"
 nnoremap <silent> <expr> crt ":set paste<CR>ct" . nr2char(getchar()) . "<C-r>*<ESC>:set nopaste<CR>"
 nnoremap <silent> <expr> crT ":set paste<CR>cT" . nr2char(getchar()) . "<C-r>*<ESC>:set nopaste<CR>"
