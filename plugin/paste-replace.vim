@@ -68,7 +68,6 @@ function! Replace(type, ...)
 
 	set nopaste
 
-	" echom a:type
 endfunction
 
 
