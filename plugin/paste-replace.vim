@@ -87,12 +87,6 @@ function! CopyToClipboard()
 endfunction
 
 
-" nnoremap <silent> cp :set paste<CR>:<C-u>execute 'normal! ' . v:count1 . '"*p'<CR>:set nopaste<CR>
-" nnoremap <silent> <expr> yri ":set paste<lt>CR>:<C-u>execute 'normal!'" . v:count1 . "ci" . input("input") . "<C-r>0:set nopaste<lt>CR>"'
-" nnoremap <expr> <silent> yri ':<C-u>execute "normal!"' . v:count1 . ci . nr2char(getchar()) . '<C-r>0<ESC>'
-
-" nnoremap <silent> <expr> cr ":<C-u>execute 'c' . nr2char(getchar()) . '<C-r>*'"
-" nnoremap <silent> <expr> cr ":<C-u>execute'c'" . nr2char(getchar()) . "<C-r>*<ESC><CR>"
 
 nnoremap <silent> cr :let g:paste_replace_register = '"_c<c-r>*'
 	\ <bar> set operatorfunc=Replace<CR>g@
@@ -102,7 +96,6 @@ nnoremap <silent> yr :let g:paste_replace_register = '"_c<c-r>0'
 
 nnoremap <silent> cy :let g:paste_replace_register = '"*y'
 	\ <bar> set operatorfunc=Replace<CR>g@
-" nnoremap <silent> cy :<C-u>execute 'normal! ' . v:count1 . '"*y . nr2char(getchar()) . <CR>'
 
 vnoremap <silent> cr "*p
 vnoremap <silent> yr "0p
