@@ -51,16 +51,21 @@ nnoremap <silent> ysr :call SearchAndReplace("0")<CR>
 
 function! Replace(type, ...)
 
+	let l:reg = g:paste_replace_data
+
+	if l:reg[1] == 'restore_register'
+		let l:old_reg = getreg('"')
+		let l:old_reg_type = getregtype('"')
+	endif
+
 	set paste
 
-	let l:reg = g:paste_replace_register
-
 	if a:type == 'char'
-		silent exe "normal! `[v`]" . l:reg . "\<esc>"
+		silent exe "normal! `[v`]" . l:reg[0] . "\<esc>"
 	elseif a:type == 'line'
-		silent exe "normal! '[V']" . l:reg . "\<esc>"
+		silent exe "normal! '[V']" . l:reg[0] . "\<esc>"
 	elseif a:type == 'block'
-		silent exe "normal! `[\<C-V>`]" . l:reg . "\<esc>"
+		silent exe "normal! `[\<C-V>`]" . l:reg[0] . "\<esc>"
 	else
 		set nopaste
 		return
@@ -68,43 +73,34 @@ function! Replace(type, ...)
 
 	set nopaste
 
-endfunction
-
-
-
-function! CopyToClipboard()
-
-	let l:old_reg = getreg('"')
-	let l:old_reg_type = getregtype('"')
-
-	echom l:old_reg
-
-	let g:paste_replace_register = '"*y'
-	set operatorfunc=Replace<CR>g@
-
-	call setreg('"', old_reg, old_reg_type)
+	if l:reg[1] == 'restore_register'
+		call setreg('"', old_reg, old_reg_type)
+	endif
 
 endfunction
 
 
 
-nnoremap <silent> cr :let g:paste_replace_register = '"_c<c-r>*'
+
+
+
+nnoremap <silent> cr :let g:paste_replace_data = ['"*p', '']
 	\ <bar> set operatorfunc=Replace<CR>g@
 
-nnoremap <silent> yr :let g:paste_replace_register = '"_c<c-r>0'
+nnoremap <silent> yr :let g:paste_replace_data = ['"0p', '']
 	\ <bar> set operatorfunc=Replace<CR>g@
 
-nnoremap <silent> cy :let g:paste_replace_register = '"*y'
+nnoremap <silent> cy :let g:paste_replace_data = ['"*y', 'restore_register']
 	\ <bar> set operatorfunc=Replace<CR>g@
 
 vnoremap <silent> cr "*p
 vnoremap <silent> yr "0p
-" vnoremap <silent> cr :let g:paste_replace_register = "*"
+" vnoremap <silent> cr :let g:paste_replace_data = "*"
 " 	\ <bar> <c-u>call Replace(visualmode())<cr>
-" vnoremap <silent> yr :let g:paste_replace_register = "0"
+" vnoremap <silent> yr :let g:paste_replace_data = "0"
 " 	\ <bar> <c-u>call Replace(visualmode())<cr>
 
-" nnoremap <silent> crw cw<c-r>*<ESC>
+nnoremap <silent> <expr> cr cw<c-r>*<ESC>
 " nnoremap <silent> yrw cw<c-r>0<ESC>
 
 " nnoremap <silent> crw :<C-u>execute "normal!" . v:count1 . "cw<C-r>*"<CR>
@@ -139,20 +135,17 @@ nnoremap <silent> <expr> crT ":set paste<CR>cT" . nr2char(getchar()) . "<C-r>*<E
 nnoremap yp "0p
 nnoremap yP "0P
 
-""Replace by yanked
-" nnoremap yR C<C-r>0<ESC>
 
-" nnoremap yR v$h"0p
-nnoremap yR C"0p
+nnoremap yR :call feedkeys('yr$')<CR>
 
 " Will be enough when yr is working
-" nnoremap <silent> yR yr$ 
+" nnoremap <silent> yR yr$
 
 "nnoremap yr0 d0"0P<ESC>
 "nnoremap yr^ d^"0P<ESC>
 
 
-nnoremap yrr V"0p
+nnoremap yrr V:call feedkeys('yr$')<CR>
 
 "nnoremap yrl cl<C-r>0<ESC>
 "nnoremap yrw cw<C-r>0<ESC>
