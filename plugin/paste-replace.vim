@@ -94,14 +94,15 @@ nnoremap <expr> tr ":call Recursive('1','" . nr2char(getchar()) . "' ,'3' ,'4' ,
 " 	\ <bar> set operatorfunc=Replace<CR>g@
 
 
+" TODO find how to use <SID>
 nnoremap <silent> cr :<C-u>let g:paste_replace_data = ['"*p', '']
 	\ <bar> set operatorfunc=Replace<CR>g@
 
 nnoremap <silent> yr :<C-u>let g:paste_replace_data = ['"0p', '']
-	\ <bar> set <SID>operatorfunc=Replace<CR>g@
+	\ <bar> set operatorfunc=Replace<CR>g@
 
 nnoremap <silent> cy :<C-u>let g:paste_replace_data = ['"*y', 'restore_register']
-	\ <bar> set <SID>operatorfunc=Replace<CR>g@
+	\ <bar> set operatorfunc=Replace<CR>g@
 
 vnoremap <silent> cr "*p
 vnoremap <silent> yr "0p
