@@ -94,14 +94,14 @@ nnoremap <expr> tr ":call Recursive('1','" . nr2char(getchar()) . "' ,'3' ,'4' ,
 " 	\ <bar> set operatorfunc=Replace<CR>g@
 
 
-nnoremap <silent> cr :let g:paste_replace_data = ['"*p', '']
+nnoremap <silent> cr :<C-u>let g:paste_replace_data = ['"*p', '']
 	\ <bar> set operatorfunc=Replace<CR>g@
 
-nnoremap <silent> yr :let g:paste_replace_data = ['"0p', '']
-	\ <bar> set operatorfunc=Replace<CR>g@
+nnoremap <silent> yr :<C-u>let g:paste_replace_data = ['"0p', '']
+	\ <bar> set <SID>operatorfunc=Replace<CR>g@
 
-nnoremap <silent> cy :let g:paste_replace_data = ['"*y', 'restore_register']
-	\ <bar> set operatorfunc=Replace<CR>g@
+nnoremap <silent> cy :<C-u>let g:paste_replace_data = ['"*y', 'restore_register']
+	\ <bar> set <SID>operatorfunc=Replace<CR>g@
 
 vnoremap <silent> cr "*p
 vnoremap <silent> yr "0p
@@ -125,11 +125,6 @@ vnoremap <silent> cy "*y
 " nnoremap <silent> <expr> yr ":set paste<CR>c" . nr2char(getchar()) . "<C-r>0<ESC>:set nopaste<CR>"
 " nnoremap <silent> <expr> <expr> yr> nr2char(getchar()) . nr2char(getchar()) . "C<C-r>0<ESC>"
 " nnoremap <silent> <expr> <expr> yr< nr2char(getchar()) . nr2char(getchar()) . "v^c<C-r>0<ESC>"
-" nnoremap <silent> <expr> yrf ":set paste<CR>cf" . nr2char(getchar()) . "<C-r>0<ESC>:set nopaste<CR>"
-" nnoremap <silent> <expr> yrF ":set paste<CR>cF" . nr2char(getchar()) . "<C-r>0<ESC>:set nopaste<CR>"
-" nnoremap <silent> <expr> yrt ":set paste<CR>ct" . nr2char(getchar()) . "<C-r>0<ESC>:set nopaste<CR>"
-" nnoremap <silent> <expr> yrT ":set paste<CR>cT" . nr2char(getchar()) . "<C-r>0<ESC>:set nopaste<CR>"
-" nnoremap <silent> yr<ESC> :echo('Replacement canceled')<CR>
 
 " nnoremap <silent> <expr> cri "ci" . nr2char(getchar()) . "<C-r>*<ESC>"
 " nnoremap <silent> <expr> cra ":set paste<CR>ca" . nr2char(getchar()) . "<C-r>*<ESC>"
@@ -137,10 +132,6 @@ vnoremap <silent> cy "*y
 " nnoremap <silent> cr<ESC> :echo('Replacement canceled')<CR>
 " nnoremap <silent> <expr> <expr> cr> nr2char(getchar()) . nr2char(getchar()) . "C<C-r>*<ESC>"
 " nnoremap <silent> <expr> <expr> cr< nr2char(getchar()) . nr2char(getchar()) . "v^c<C-r>*<ESC>"
-" " nnoremap <silent> <expr> crf ":set paste<CR>cf" . nr2char(getchar()) . "<C-r>*<ESC>:set nopaste<CR>"
-" nnoremap <silent> <expr> crF ":set paste<CR>cF" . nr2char(getchar()) . "<C-r>*<ESC>:set nopaste<CR>"
-" nnoremap <silent> <expr> crt ":set paste<CR>ct" . nr2char(getchar()) . "<C-r>*<ESC>:set nopaste<CR>"
-" nnoremap <silent> <expr> crT ":set paste<CR>cT" . nr2char(getchar()) . "<C-r>*<ESC>:set nopaste<CR>"
 
 "Paste vim "0 register
 nnoremap yp "0p
@@ -149,8 +140,6 @@ nnoremap yP "0P
 
 nnoremap yR :call feedkeys('yr$')<CR>
 
-" Will be enough when yr is working
-" nnoremap <silent> yR yr$
 
 "nnoremap yr0 d0"0P<ESC>
 "nnoremap yr^ d^"0P<ESC>
