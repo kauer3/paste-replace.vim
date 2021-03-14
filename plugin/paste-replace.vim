@@ -105,6 +105,7 @@ nnoremap <silent> cy :let g:paste_replace_data = ['"*y', 'restore_register']
 
 vnoremap <silent> cr "*p
 vnoremap <silent> yr "0p
+vnoremap <silent> cy "*y
 " vnoremap <silent> cr :let g:paste_replace_data = "*"
 " 	\ <bar> <c-u>call Replace(visualmode())<cr>
 " vnoremap <silent> yr :let g:paste_replace_data = "0"
@@ -182,8 +183,7 @@ nnoremap <silent> cY :<C-u>execute 'normal! ' . v:count1 . '"*y$'<CR>
 " vnoremap <silent> cy :<C-u>execute 'normal! ' . v:count1 . '"*y'<CR>
 
 "Yank untill the end of the line
-" " map Y y$
-" nnoremap <silent> Y :<C-u>execute 'normal! ' . v:count1 . 'y$'<CR>
+nnoremap <silent> Y :<C-u>execute 'normal! ' . v:count1 . 'y$'<CR>
 
 " idea below
 "nnoremap c>. f.a
