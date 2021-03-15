@@ -1,10 +1,15 @@
 " TODO Add count to all mappings possible
 
-if exists("g:loaded_paste_replace")
+if exists("g:loaded_paste_replace") || &cp
   finish
 endif
-let g:loaded_paste_replace = 1
+let g:loaded_paste_replace = 1 " version number
+let s:keepcpo = &cpo
+set cpo&vim
 
+
+
+" TODO adapt to <SID>
 function! SearchAndReplace(reg)
 	" if a:reg == "*"
 	" 	let l:msg = "Clipboard search and replace... enter search method (f, t, F, T)"
@@ -49,37 +54,37 @@ nnoremap <silent> csr :call SearchAndReplace("*")<CR>
 nnoremap <silent> ysr :call SearchAndReplace("0")<CR>
 
 
-function! Replace(type, ...)
+function! s:Replace(type, ...)
 
-	let l:reg = g:paste_replace_data
+	let l:keys = b:paste_replace_keys
 
-	if l:reg[1] == 'restore_register'
+	if l:keys[1] == 'restore_register'
 		let l:old_reg = getreg('"')
 		let l:old_reg_type = getregtype('"')
+	else
+		set paste
 	endif
-
-	set paste
 
 	if a:type == 'char'
-		silent exe "normal! `[v`]" . l:reg[0] . "\<esc>"
+		silent exe "normal! `[v`]" . l:keys[0] . "\<esc>"
 	elseif a:type == 'line'
-		silent exe "normal! '[V']" . l:reg[0] . "\<esc>"
+		silent exe "normal! '[V']" . l:keys[0] . "\<esc>"
 	elseif a:type == 'block'
-		silent exe "normal! `[\<C-V>`]" . l:reg[0] . "\<esc>"
-	else
-		set nopaste
-		return
+		silent exe "normal! `[\<C-V>`]" . l:keys[0] . "\<esc>"
+	" else
+	" 	set nopaste
+	" 	return
 	endif
 
-	set nopaste
-
-	if l:reg[1] == 'restore_register'
+	if l:keys[1] == 'restore_register'
 		call setreg('"', old_reg, old_reg_type)
+	else
+		set nopaste
 	endif
 
 endfunction
 
-" TODO
+" TODO implement operator-pending motion 'w' special case
 function! Recursive(first, char, operator, count, motion)
 	if type(a:char) == type(0) 
 		echom 'nr'
@@ -88,21 +93,21 @@ function! Recursive(first, char, operator, count, motion)
 	endif
 	return
 endfunction
+
 " TODO
 nnoremap <expr> tr ":call Recursive('1','" . nr2char(getchar()) . "' ,'3' ,'4' ,'5' )<cr>"
 " nnoremap <silent> <expr> cr :let g:paste_replace_special = ['"*p', '']
 " 	\ <bar> set operatorfunc=Replace<CR>g@
 
 
-" TODO find how to use <SID>
-nnoremap <silent> cr :<C-u>let g:paste_replace_data = ['"*p', '']
-	\ <bar> set operatorfunc=Replace<CR>g@
+nnoremap <silent> cr :<C-u>let b:paste_replace_keys = ['"*p', ''] 
+	\ <bar> set operatorfunc=<SID>Replace<CR>g@
 
-nnoremap <silent> yr :<C-u>let g:paste_replace_data = ['"0p', '']
-	\ <bar> set operatorfunc=Replace<CR>g@
+nnoremap <silent> yr :<C-u>let b:paste_replace_keys = ['"0p', '']
+	\ <bar> set operatorfunc=<SID>Replace<CR>g@
 
-nnoremap <silent> cy :<C-u>let g:paste_replace_data = ['"*y', 'restore_register']
-	\ <bar> set operatorfunc=Replace<CR>g@
+nnoremap <silent> cy :<C-u>let b:paste_replace_keys = ['"*y', 'restore_register']
+	\ <bar> set operatorfunc=<SID>Replace<CR>g@
 
 vnoremap <silent> cr "*p
 vnoremap <silent> yr "0p
@@ -146,7 +151,7 @@ nnoremap yR :call feedkeys('yr$')<CR>
 "nnoremap yr^ d^"0P<ESC>
 
 
-nnoremap yrr V:call feedkeys('yr$')<CR>
+nnoremap <silent> yrr :call feedkeys('Vyr$')<CR>
 
 "nnoremap yrl cl<C-r>0<ESC>
 "nnoremap yrw cw<C-r>0<ESC>
@@ -156,9 +161,10 @@ nnoremap yrr V:call feedkeys('yr$')<CR>
 
 
 "Paste from clipboard
-nnoremap <silent> cp :set paste<CR>:<C-u>execute 'normal! ' . v:count1 . '"*p'<CR>:set nopaste<CR>
-nnoremap <silent> cP :set paste<CR>:<C-u>execute 'normal! ' . v:count1 . '"*P'<CR>:set nopaste<CR>
+" nnoremap <silent> cp :set paste<CR>:<C-u>execute 'normal! ' . v:count1 . '"*p'<CR>:set nopaste<CR>
+" nnoremap <silent> cP :set paste<CR>:<C-u>execute 'normal! ' . v:count1 . '"*P'<CR>:set nopaste<CR>
 vnoremap <silent> cp "*p
+nnoremap <silent> cp "*p
 " nnoremap <silent> cp :set paste<CR>"*p:set nopaste<CR>
 " nnoremap <silent> cP :set paste<CR>"*P:set nopaste<CR>
 
