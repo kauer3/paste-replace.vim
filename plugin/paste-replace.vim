@@ -144,29 +144,13 @@ nnoremap yp "0p
 nnoremap yP "0P
 
 
-nnoremap yR :call feedkeys('yr$')<CR>
-
-
-"nnoremap yr0 d0"0P<ESC>
-"nnoremap yr^ d^"0P<ESC>
-
-
+nnoremap <silent> yR :call feedkeys('yr$')<CR>
 nnoremap <silent> yrr :call feedkeys('Vyr$')<CR>
-
-"nnoremap yrl cl<C-r>0<ESC>
-"nnoremap yrw cw<C-r>0<ESC>
-""nnoremap yriw ciw<C-r>0<ESC>
-"nnoremap yrW cW<C-r>0<ESC>
-"vmap yr c<C-r>0<ESC>
 
 
 "Paste from clipboard
-" nnoremap <silent> cp :set paste<CR>:<C-u>execute 'normal! ' . v:count1 . '"*p'<CR>:set nopaste<CR>
-" nnoremap <silent> cP :set paste<CR>:<C-u>execute 'normal! ' . v:count1 . '"*P'<CR>:set nopaste<CR>
 vnoremap <silent> cp "*p
 nnoremap <silent> cp "*p
-" nnoremap <silent> cp :set paste<CR>"*p:set nopaste<CR>
-" nnoremap <silent> cP :set paste<CR>"*P:set nopaste<CR>
 
 ""Replace by clipboard data
 " nnoremap <silent> cR :set paste<CR>C<C-r>*<ESC>:set nopaste<CR>
@@ -181,9 +165,5 @@ nnoremap <silent> cY :<C-u>execute 'normal! ' . v:count1 . '"*y$'<CR>
 "Yank untill the end of the line
 nnoremap <silent> Y :<C-u>execute 'normal! ' . v:count1 . 'y$'<CR>
 
-" idea below
-"nnoremap c>. f.a
-"nnoremap d>. f.lD
-
-" nnoremap <silent> <expr> cy '"*y' . nr2char(getchar())
-" nnoremap <silent> <expr> cY '"*y$'
+let &cpo= s:keepcpo
+unlet s:keepcpo
