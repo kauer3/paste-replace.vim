@@ -4,7 +4,7 @@
 
 ---
 
-### Replace text with registers
+### Vim plugin to replace text with registers
 
 ---
 
@@ -20,7 +20,8 @@
 
 ## Introduction
 
-  <p>Paste-Replace provides new operators to replace text objects with register contents in vim. In other words, it makes it much easier to replace text with another text you had copied. The two main operators are `cr` (replace with system clipboard) and `yr` (replace with last yanked text). Like any standard vim operator, they can be preceded by a count and followed by motions or any operator-pending mode command.</p>
+  <p>Paste-Replace provides new operators to replace text objects with register contents in vim. In other words, it makes it much easier to replace text with another text you had copied. Like any default vim operator, they can be preceded by a count and followed by any motion or operator-pending mode command. Also, if you happen to use a plugin that adds custom text objects, like [targets](#addlinkhere), or custom motions like [easymotion](#addlinkhere), Paste-Replace will be compatible with it.</p>
+  <p>The two replace operators are `cr` (replace with system clipboard) and `yr` (replace with last yanked text), and there is also `cy`, an operator that copies to the system clipboard.</p>
 
 ---
 
