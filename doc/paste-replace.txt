@@ -1,0 +1,52 @@
+*paste-replace.txt*																		         Alpha Version
+
+
+
+                         __                              __              ~
+       ____  ____  _____/ /____         ________  ____  / /___  ________ ~
+      / __ \*/* __ *|/* *___/* *__/* _ *\*       */* *___/* *_* |\|/ __ \*/* */* __ *|/* *___/* _ *\*
+     / |/|_/ / |/|_/ *(__*  *)* */_/*  __*/* |/|//*/* */* */*  */*  |__|/ |/|_/ / */* |/|_/ */* */__/*  __*/*
+    / .___/|\__,_/____/\__/\___/|      |/_/|   |\___|/ .___/|_/\__,_/\___/\___/| 
+   /_/                                        /_/                        
+
+
+
+==============================================================================
+CONTENTS                                                 *paste-replace-contents*
+      
+    Introduction ....................... |paste-replace-introduction|
+    Usage .............................. |paste-replace-usage|
+       Default mappings ................ |paste-replace-default-mappings|
+    Configuration ...................... |paste-replace-configuration|
+       Custom mappings ................. |paste-replace-custom-mappings|
+       Autocommands .................... |paste-replace-autocommands|
+    License ............................ |paste-replace-license|
+    Known bugs ......................... |paste-replace-known-bugs|
+    Contributing ....................... |paste-replace-contributing|
+    Credits ............................ |paste-replace-credits|
+
+==============================================================================
+Introduction                      *paste-replace* *paste-replace-introduction*
+
+Paste-Replace provides new operators to replace text objects with register 
+contents in vim. In other words, it makes it much easier to replace text with 
+another text you had copied. 
+
+Aditionally, Paste-Replace also provides an operator to copy text to clipboard
+and some other mappings related to registers.
+
+The two replace operators are |cr| (replace with system clipboard) and |yr| 
+(replace with last yanked text), and there is also |cy|, that copies to the 
+system clipboard.
+
+==============================================================================
+Usage                                                    *paste-replace-usage*
+
+Like any default vim operator, they can be preceded by a count and followed by 
+any motion or operator-pending mode command. Also, if you happen to use a 
+plugin that adds custom text objects, like targets, or custom motions like 
+easymotion, Paste-Replace will be compatible with it.
+
+
+
+
