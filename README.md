@@ -10,8 +10,8 @@
 
 ### Topics:
   - [Introduction](#introduction)
-  - [Examples](#examples)
   - [Installation](#installation)
+  - [Documentation](#documentation)
 
 ---
 
@@ -24,19 +24,34 @@
 
 ## Installation
 
-### Pathogen (https://github.com/tpope/vim-pathogen)
+### [Vim-Plug](https://github.com/junegunn/vim-plug)
 ```
-git clone https://github.com/kauer3/paste-replace.vim ~/.vim/bundle/vim-easymotion
+Plug 'kauer3/paste-replace.vim'
 ```
 
-### Vundle (https://github.com/gmarik/vundle)
+### [Vundle](https://github.com/gmarik/vundle)
 ```
 Plugin 'kauer3/paste-replace.vim'
 ```
 
-### NeoBundle (https://github.com/Shougo/neobundle.vim)
+### [NeoBundle](https://github.com/Shougo/neobundle.vim)
 ```
 NeoBundle 'kauer3/paste-replace.vim'
+```
+
+### [Pathogen](https://github.com/tpope/vim-pathogen)
+```
+git clone https://github.com/kauer3/paste-replace.vim ~/.vim/bundle/paste-replace.vim
+```
+
+---
+
+## Documentation
+
+  To access Paste-Replace documentation, in Vim command mode, enter:
+
+```
+:help paste-replace
 ```
 
 ---
