@@ -22,15 +22,6 @@
 
 ---
 
-## Examples
-
-<details>
-<summary><code>yriw</code></summary>
-<img align="right" height="158" src="/images/dev.gif">
-</details>
-
----
-
 ## Installation
 
 ### Pathogen (https://github.com/tpope/vim-pathogen)
