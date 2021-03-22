@@ -10,11 +10,8 @@
 
 ### Topics:
   - [Introduction](#introduction)
-    - What is it?
-    - How to use it?
-    - Features
   - [Examples](#examples)
-  - [Install](#install)
+  - [Installation](#installation)
 
 ---
 
@@ -27,29 +24,28 @@
 
 ## Examples
 
-<details>-->
-<summary><code>yriw</code></summary>-->
+<details>
+<summary><code>yriw</code></summary>
 <img align="right" height="158" src="/images/dev.gif">
-</details>-->
+</details>
 
 ---
 
-Installation
-------------
+## Installation
 
 ### Pathogen (https://github.com/tpope/vim-pathogen)
 ```
-git clone https://github.com/easymotion/vim-easymotion ~/.vim/bundle/vim-easymotion
+git clone https://github.com/kauer3/paste-replace.vim ~/.vim/bundle/vim-easymotion
 ```
 
 ### Vundle (https://github.com/gmarik/vundle)
 ```
-Plugin 'easymotion/vim-easymotion'
+Plugin 'kauer3/paste-replace.vim'
 ```
 
 ### NeoBundle (https://github.com/Shougo/neobundle.vim)
 ```
-NeoBundle 'easymotion/vim-easymotion'
+NeoBundle 'kauer3/paste-replace.vim'
 ```
 
 ---
