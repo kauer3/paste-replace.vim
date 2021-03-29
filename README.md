@@ -1,5 +1,5 @@
 <p align="center">
-  <img align="center" src="/images/prtitle.png">
+  <img align="center" src="/images/pr.png">
 </p>
 
 ---
