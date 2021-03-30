@@ -73,7 +73,7 @@ function! s:Replace(type, ...)
 			if l:keys[0] == 'replace'
 				silent exe "normal! `[i" . l:keys[1] . "\<esc>"
 			else
-				call setreg('"', '', 'c')
+				call setreg('"', ' ', 'c')
 			endif
 		else
 			silent exe "normal! `[v`]" . l:keys[1] . "\<esc>"
