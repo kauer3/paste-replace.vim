@@ -35,7 +35,7 @@ function! SearchAndReplace(reg)
 		:echon "Invalid search method"
 		return
 	endif
-	le l:character2 = getchar()
+	let l:character2 = getchar()
 	if l:character2 == "27"
 		return
 	endif
@@ -48,10 +48,9 @@ function! SearchAndReplace(reg)
 	call feedkeys("`p")
 endfunction
 
-" nnoremap <silent> csr :call SearchAndReplace("*")<CR>
-" nnoremap <silent> ysr :call SearchAndReplace("0")<CR>
-nnoremap <silent> csr :call SearchAndReplace("*")<CR>
-nnoremap <silent> ysr :call SearchAndReplace("0")<CR>
+nnoremap <silent> csr :call SearchAndReplace('*')<CR>
+nnoremap <silent> ysr :call SearchAndReplace('0')<CR>
+nnoremap <silent> dsr :call SearchAndReplace('"')<CR>
 
 
 function! s:Replace(type, ...)
@@ -66,9 +65,16 @@ function! s:Replace(type, ...)
 	endif
 
 	if a:type == 'char'
-		" TODO add condition whit getcurpos()
-		" silent exe "normal! `[v`]" . l:keys[0] . "\<esc>"
-		silent exe "normal! `[v`]\"_c\<c-r>" . l:keys[0] . "\<esc>"
+		silent exe "normal! `["
+		let l:start_text_obj = getcurpos()
+		silent exe "normal! `]"
+		let l:end_text_obj = getcurpos()
+		echom l:start_text_obj[1] l:start_text_obj[2] l:end_text_obj[1] l:end_text_obj[2]
+		if l:start_text_obj[1] == l:end_text_obj[1] && l:start_text_obj[2] - l:end_text_obj[2] == 1
+			silent exe "normal! `[i\<c-r>" . l:keys[0] . "\<esc>"
+		else
+			silent exe "normal! `[v`]\"_c\<c-r>" . l:keys[0] . "\<esc>"
+		endif
 	elseif a:type == 'line'
 		silent exe "normal! '[V']" . l:keys[0] . "\<esc>"
 	elseif a:type == 'block'
@@ -87,27 +93,31 @@ function! s:Replace(type, ...)
 endfunction
 
 " TODO implement operator-pending motion 'w' special case
-function! Recursive(first, char, operator, count, motion)
-	if type(a:char) == type(0) 
-		echom 'nr'
-	else
-		echom 'char'
-	endif
-	return
-endfunction
+
+" function! Recursive(first, char, operator, count, motion)
+" 	if type(a:char) == type(0)
+" 		echom 'nr'
+" 	else
+" 		echom 'char'
+" 	endif
+" 	return
+" endfunction
 
 " TODO
-nnoremap <expr> tr ":call Recursive('1','" . nr2char(getchar()) . "' ,'3' ,'4' ,'5' )<cr>"
+" nnoremap <expr> tr ":call Recursive('1','" . nr2char(getchar()) . "' ,'3' ,'4' ,'5' )<cr>"
+
 " nnoremap <silent> <expr> cr :let g:paste_replace_special = ['"*p', '']
 " 	\ <bar> set operatorfunc=Replace<CR>g@
 
-
-" nnoremap <silent> cr :<C-u>let b:paste_replace_keys = ['"*p', ''] 
-nnoremap <silent> cr :<C-u>let b:paste_replace_keys = ['*', ''] 
+" nnoremap <silent> cr :<C-u>let b:paste_replace_keys = ['"*p', '']
+nnoremap <silent> cr :<C-u>let b:paste_replace_keys = ['*', '']
 	\ <bar> set operatorfunc=<SID>Replace<CR>g@
 
 " nnoremap <silent> yr :<C-u>let b:paste_replace_keys = ['"0p', '']
 nnoremap <silent> yr :<C-u>let b:paste_replace_keys = ['0', '']
+	\ <bar> set operatorfunc=<SID>Replace<CR>g@
+
+nnoremap <silent> dr :<C-u>let b:paste_replace_keys = ['"', '']
 	\ <bar> set operatorfunc=<SID>Replace<CR>g@
 
 nnoremap <silent> cy :<C-u>let b:paste_replace_keys = ['"*y', 'restore_register']
