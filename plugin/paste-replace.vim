@@ -7,8 +7,6 @@ let g:loaded_paste_replace = 1 " version number
 let s:keepcpo = &cpo
 set cpo&vim
 
-
-
 " TODO adapt to <SID>
 function! SearchAndReplace(reg)
 	" if a:reg == "*"
@@ -51,7 +49,6 @@ endfunction
 nnoremap <silent> csr :call SearchAndReplace('*')<CR>
 nnoremap <silent> ysr :call SearchAndReplace('0')<CR>
 nnoremap <silent> dsr :call SearchAndReplace('"')<CR>
-
 
 function! s:Replace(type, ...)
 
@@ -109,11 +106,9 @@ endfunction
 " nnoremap <silent> <expr> cr :let g:paste_replace_special = ['"*p', '']
 " 	\ <bar> set operatorfunc=Replace<CR>g@
 
-" nnoremap <silent> cr :<C-u>let b:paste_replace_keys = ['"*p', '']
 nnoremap <silent> cr :<C-u>let b:paste_replace_keys = ['*', '']
 	\ <bar> set operatorfunc=<SID>Replace<CR>g@
 
-" nnoremap <silent> yr :<C-u>let b:paste_replace_keys = ['"0p', '']
 nnoremap <silent> yr :<C-u>let b:paste_replace_keys = ['0', '']
 	\ <bar> set operatorfunc=<SID>Replace<CR>g@
 
@@ -126,28 +121,6 @@ nnoremap <silent> cy :<C-u>let b:paste_replace_keys = ['"*y', 'restore_register'
 vnoremap <silent> cr "*p
 vnoremap <silent> yr "0p
 vnoremap <silent> cy "*y
-
-" nnoremap <silent> <expr> cr cw<c-r>*<ESC>
-" nnoremap <silent> yrw cw<c-r>0<ESC>
-
-" nnoremap <silent> crw :<C-u>execute "normal!" . v:count1 . "cw<C-r>*"<CR>
-" nnoremap <silent> crw :<C-u>execute "normal!cr" . v:count1 . "w"<CR>
-" nnoremap <silent> <expr> cr ":set paste<CR>c" . nr2char(getchar()) . "<C-r>*<ESC>:set nopaste<CR>"
-
-
-" nnoremap <silent> <expr> yri ":set paste<CR>ci" . nr2char(getchar()) . "<C-r>0<ESC>:set nopaste<CR>"
-" nnoremap <silent> <expr> yra ":set paste<CR>ca" . nr2char(getchar()) . "<C-r>0<ESC>:set nopaste<CR>"
-" nnoremap <silent> <expr> yra "va" . nr2char(getchar()) . '"0p'
-" nnoremap <silent> <expr> yr ":set paste<CR>c" . nr2char(getchar()) . "<C-r>0<ESC>:set nopaste<CR>"
-" nnoremap <silent> <expr> <expr> yr> nr2char(getchar()) . nr2char(getchar()) . "C<C-r>0<ESC>"
-" nnoremap <silent> <expr> <expr> yr< nr2char(getchar()) . nr2char(getchar()) . "v^c<C-r>0<ESC>"
-
-" nnoremap <silent> <expr> cri "ci" . nr2char(getchar()) . "<C-r>*<ESC>"
-" nnoremap <silent> <expr> cra ":set paste<CR>ca" . nr2char(getchar()) . "<C-r>*<ESC>"
-" nnoremap <silent> <expr> cr ":set paste<CR>c" . nr2char(getchar()) . "<C-r>*<ESC>:set nopaste<CR>"
-" nnoremap <silent> cr<ESC> :echo('Replacement canceled')<CR>
-" nnoremap <silent> <expr> <expr> cr> nr2char(getchar()) . nr2char(getchar()) . "C<C-r>*<ESC>"
-" nnoremap <silent> <expr> <expr> cr< nr2char(getchar()) . nr2char(getchar()) . "v^c<C-r>*<ESC>"
 
 "Paste vim "0 register
 nnoremap yp "0p
