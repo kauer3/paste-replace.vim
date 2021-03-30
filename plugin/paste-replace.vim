@@ -71,9 +71,9 @@ function! s:Replace(type, ...)
 		echom l:start_text_obj[1] l:start_text_obj[2] l:end_text_obj[1] l:end_text_obj[2]
 		if l:start_text_obj[1] == l:end_text_obj[1] && l:start_text_obj[2] - l:end_text_obj[2] == 1
 			if l:keys[0] == 'replace'
-				silent exe "normal! `[i\<c-r>" . l:keys[0] . "\<esc>"
+				silent exe "normal! `[i" . l:keys[1] . "\<esc>"
 			else
-				call setreg('"', '', c)
+				call setreg('"', '', 'c')
 			endif
 		else
 			silent exe "normal! `[v`]" . l:keys[1] . "\<esc>"
