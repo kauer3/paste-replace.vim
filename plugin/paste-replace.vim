@@ -123,6 +123,7 @@ vnoremap <silent> cr "*p
 vnoremap <silent> yr "0p
 vnoremap <silent> cy "*y
 
+" TODO restore default register on mapping below
 nnoremap <silent> cyy V"*y
 
 "Paste vim "0 register
