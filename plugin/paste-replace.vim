@@ -1,5 +1,3 @@
-" TODO Add count to all mappings possible
-
 if exists("g:loaded_paste_replace") || &cp
   finish
 endif
