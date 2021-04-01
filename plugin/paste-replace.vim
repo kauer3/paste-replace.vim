@@ -53,13 +53,36 @@ nnoremap <silent> dsr :call SearchAndReplace('"')<CR>
 
 function! s:ConcatLines()
 	silent exe "normal! `["
-	let l:start_text_obj = getcurpos()
+	let l:start_text_obj = getline('.')
 	silent exe "normal! `]"
-	let l:end_text_obj = getcurpos()
-	let l:lines = l:end_text_obj[1] - l:start_text_obj[1] + 1
+	let l:end_text_obj = getline('.')
+	let l:lines = l:end_text_obj - l:start_text_obj + 1
 	if l:lines > 1
 		silent exe "normal! `[" . l:lines . "J"
 	endif
+
+endfunction
+
+
+" For now works only with linewise
+function! s:IndentLines()
+	silent exe "normal! `[k$"
+	let l:start_text_obj = getline('.')
+	let l:top_surround = l:start_text_obj[col('.')-1] 
+	silent exe "normal! `]j^"
+	let l:end_text_obj = getline('.')
+	let l:bot_surround = l:end_text_obj[col('.')-1] 
+	let l:lines = l:end_text_obj - l:start_text_obj + 1
+
+	if ('{[<' =~ l:top_surround && char2nr(l:bot_surround) - char2nr(l:top_surround) == 2) || (l:top_surround == '(' && l:bot_surround == ')') || ('"' =~ l:top_surround && l:top_surround == l:bot_surround)
+		silent exe "normal! `[=`]"
+		echom "GREAT SUCCESS!!!"
+	endif
+
+	" > . l:lines . k
+	" echom matchstr(l:bot_surround[1], '\%' . l:bot_surround[2] . 'c.')
+	" echom getline('.')[col('.')-1] 
+	" let l:top_surround = matchstr(getline('.'), '\%' . col('.') . 'c.')
 
 endfunction
 
@@ -68,7 +91,7 @@ function! s:Replace(type, ...)
 
 	let l:keys = b:paste_replace_keys
 	let l:reg_type = getregtype(l:keys[1])
-	echom l:reg_type
+	echom 'The type is: ' . l:reg_type
 
 	if l:keys[0] == 'copy'
 		let l:old_reg = getreg('"')
@@ -77,9 +100,14 @@ function! s:Replace(type, ...)
 	else
 		if l:keys[0] != 'replace' && l:reg_type != l:keys[0]
 			if l:keys[0] == 'v' 
+				let l:reg_buffer = getreg(l:keys[1])
 				let l:reg_data = trim(getreg(l:keys[1]))
 			else
-				let l:reg_data = getreg(l:keys[1])
+				" if l:keys[0] == 'V' 
+				" 	set autoindent
+				" endif
+				let l:reg_data = trim(getreg(l:keys[1]))
+				" let l:reg_data = getreg(l:keys[1])
 			endif
 			call setreg(l:keys[1], l:reg_data, l:keys[0])
 		endif
@@ -89,10 +117,10 @@ function! s:Replace(type, ...)
 	endif
 
 
-		silent exe "normal! `["
-		let l:start_text_obj = getcurpos()
-		silent exe "normal! `]"
-		let l:end_text_obj = getcurpos()
+	silent exe "normal! `["
+	let l:start_text_obj = getcurpos()
+	silent exe "normal! `]"
+	let l:end_text_obj = getcurpos()
 
 	if a:type == 'char'
 		if l:start_text_obj[1] == l:end_text_obj[1] && l:start_text_obj[2] - l:end_text_obj[2] == 1
@@ -103,13 +131,18 @@ function! s:Replace(type, ...)
 						silent exe 'normal! `["' . l:keys[1] . 'P\<esc>'
 						" echom '90'
 					elseif l:keys[0] == 'V'
-						silent exe 'normal! `[i"' . l:keys[1] . 'P\<esc>'
+						silent exe 'normal! `[i=="' . l:keys[1] . 'P\<esc>'
 						" echom '93'
 					endif
 
 				elseif l:reg_type == 'V'
 					if l:keys[0] == 'V' || l:keys[0] == 'replace'
-						silent exe 'normal! `[i"' . l:keys[1] . 'P\<esc>'
+						silent exe 'normal! `[i=="' . l:keys[1] . 'P\<esc>'
+
+						" TODO TODO TODO TODO TODO TODO
+					 	call s:IndentLines()
+						" TODO TODO TODO TODO TODO TODO
+
 						" echom '98'
 					elseif l:keys[0] == 'v'
 						silent exe 'normal! `["' . l:keys[1] . 'P\<esc>'
@@ -126,8 +159,8 @@ function! s:Replace(type, ...)
 						" echom '101'
 					 	call s:ConcatLines()
 					elseif l:keys[0] == 'V'
-						silent exe 'normal! `[i"' . l:keys[1] . 'P\<esc>'
-						" echom '93'
+						silent exe 'normal! `[i=="' . l:keys[1] . 'P\<esc>'
+						echom '93'
 					endif
 
 				endif
@@ -142,8 +175,10 @@ function! s:Replace(type, ...)
 			endif
 		endif
 	elseif a:type == 'line'
+		echo "It's a Line!!"
 		silent exe 'normal! `[V`]' . l:keys[1] . '\<esc>'
 	elseif a:type == 'block'
+		echo "It's a Block!!"
 		silent exe 'normal! `[\<C-V>`]' . l:keys[1] . '\<esc>'
 	endif
 
@@ -152,8 +187,13 @@ function! s:Replace(type, ...)
 		call setreg('"', old_reg, old_reg_type)
 	else
 		if l:keys[0] != 'replace' && l:reg_type != l:keys[0]
-		call setreg(l:keys[1], l:reg_data, l:reg_type)
-
+			if l:keys[0] == 'v'
+				" echo "It's getting here!!"
+				call setreg(l:keys[1], l:reg_buffer, l:reg_type)
+			else
+				" echo "It's getting there!!"
+				call setreg(l:keys[1], l:reg_data, l:reg_type)
+			endif
 		endif
 		set nopaste
 	endif
