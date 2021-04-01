@@ -1,3 +1,5 @@
+" TODO Add count to all mappings possible
+
 if exists("g:loaded_paste_replace") || &cp
   finish
 endif
@@ -48,43 +50,111 @@ nnoremap <silent> csr :call SearchAndReplace('*')<CR>
 nnoremap <silent> ysr :call SearchAndReplace('0')<CR>
 nnoremap <silent> dsr :call SearchAndReplace('"')<CR>
 
+
+function! s:ConcatLines()
+	silent exe "normal! `["
+	let l:start_text_obj = getcurpos()
+	silent exe "normal! `]"
+	let l:end_text_obj = getcurpos()
+	let l:lines = l:end_text_obj[1] - l:start_text_obj[1] + 1
+	if l:lines > 1
+		silent exe "normal! `[" . l:lines . "J"
+	endif
+
+endfunction
+
+
 function! s:Replace(type, ...)
 
 	let l:keys = b:paste_replace_keys
+	let l:reg_type = getregtype(l:keys[1])
+	echom l:reg_type
 
-	if l:keys[1] == 'restore'
+	if l:keys[0] == 'copy'
 		let l:old_reg = getreg('"')
 		let l:old_reg_type = getregtype('"')
-	endif
+		let l:method = 'y'
+	else
+		if l:keys[0] != 'replace' && l:reg_type != l:keys[0]
+			if l:keys[0] == 'v' 
+				let l:reg_data = trim(getreg(l:keys[1]))
+			else
+				let l:reg_data = getreg(l:keys[1])
+			endif
+			call setreg(l:keys[1], l:reg_data, l:keys[0])
+		endif
 
-	if l:keys[0] == 'replace'
 		let l:method = 'p'
 		set paste
-	else
-		let l:method = 'y'
 	endif
 
-	if a:type == 'char'
+
 		silent exe "normal! `["
 		let l:start_text_obj = getcurpos()
 		silent exe "normal! `]"
 		let l:end_text_obj = getcurpos()
+
+	if a:type == 'char'
 		if l:start_text_obj[1] == l:end_text_obj[1] && l:start_text_obj[2] - l:end_text_obj[2] == 1
-			if l:keys[0] == 'replace'
-				silent exe 'normal! `["' . l:keys[2] . 'P\<esc>'
+			if l:keys[0] != 'copy'
+
+				if l:reg_type == 'v'
+					if l:keys[0] == 'v' || l:keys[0] == 'replace'
+						silent exe 'normal! `["' . l:keys[1] . 'P\<esc>'
+						" echom '90'
+					elseif l:keys[0] == 'V'
+						silent exe 'normal! `[i"' . l:keys[1] . 'P\<esc>'
+						" echom '93'
+					endif
+
+				elseif l:reg_type == 'V'
+					if l:keys[0] == 'V' || l:keys[0] == 'replace'
+						silent exe 'normal! `[i"' . l:keys[1] . 'P\<esc>'
+						" echom '98'
+					elseif l:keys[0] == 'v'
+						silent exe 'normal! `["' . l:keys[1] . 'P\<esc>'
+						" echom '101'
+					 	call s:ConcatLines()
+					endif
+
+				elseif l:reg_type =~ ''
+					if l:keys[0] == 'block' || l:keys[0] == 'replace'
+						silent exe 'normal! `["' . l:keys[1] . 'P\<esc>'
+						echom '101'
+					elseif l:keys[0] == 'v'
+						silent exe 'normal! `["' . l:keys[1] . 'P\<esc>'
+						" echom '101'
+					 	call s:ConcatLines()
+					elseif l:keys[0] == 'V'
+						silent exe 'normal! `[i"' . l:keys[1] . 'P\<esc>'
+						" echom '93'
+					endif
+
+				endif
+
 			endif
+
 		else
-			silent exe 'normal! `[v`]"' . l:keys[2] . l:method . '\<esc>'
+		" Regular yr operator
+			silent exe 'normal! `[v`]"' . l:keys[1] . l:method . '\<esc>'
+			if l:keys[0] == 'v'
+				call s:ConcatLines()
+			endif
 		endif
 	elseif a:type == 'line'
-		silent exe 'normal! `[V`]"' . l:keys[2] . l:method . '\<esc>'
+		silent exe 'normal! `[V`]' . l:keys[1] . '\<esc>'
 	elseif a:type == 'block'
-		silent exe 'normal! `[\<C-V>`]"' . l:keys[2] . l:method . '\<esc>'
+		silent exe 'normal! `[\<C-V>`]' . l:keys[1] . '\<esc>'
 	endif
 
-	if l:keys[1] == 'restore'
+
+	if l:keys[0] == 'copy'
 		call setreg('"', old_reg, old_reg_type)
 	else
+		if l:keys[0] != 'replace' && l:reg_type != l:keys[0]
+		call setreg(l:keys[1], l:reg_data, l:reg_type)
+
+		endif
 		set nopaste
 	endif
 
@@ -104,27 +174,33 @@ endfunction
 " TODO
 " nnoremap <expr> tr ":call Recursive('1','" . nr2char(getchar()) . "' ,'3' ,'4' ,'5' )<cr>"
 
-" nnoremap <silent> tr :<C-u>let b:paste_replace_keys = ['copy', '"_c<c-r><c-o>0']
-" 	\ <bar> set operatorfunc=<SID>Replace<CR>g@
+" nnoremap <silent> <expr> cr :let g:paste_replace_special = ['"*p', '']
+" 	\ <bar> set operatorfunc=Replace<CR>g@
 
-nnoremap <silent> cr :<C-u>let b:paste_replace_keys = ['replace', 'restore', '*']
+nnoremap <silent> cr :<C-u>let b:paste_replace_keys = ['replace', '*']
 	\ <bar> set operatorfunc=<SID>Replace<CR>g@
 
-nnoremap <silent> yr :<C-u>let b:paste_replace_keys = ['replace', 'restore', '0']
+nnoremap <silent> yr :<C-u>let b:paste_replace_keys = ['replace', '0']
 	\ <bar> set operatorfunc=<SID>Replace<CR>g@
 
-nnoremap <silent> dr :<C-u>let b:paste_replace_keys = ['replace', 'restore', '"']
+nnoremap <silent> yrv :<C-u>let b:paste_replace_keys = ['v', '0']
 	\ <bar> set operatorfunc=<SID>Replace<CR>g@
 
-nnoremap <silent> cy :<C-u>let b:paste_replace_keys = ['copy', 'restore', '*']
+nnoremap <silent> yrV :<C-u>let b:paste_replace_keys = ['V', '0']
+	\ <bar> set operatorfunc=<SID>Replace<CR>g@
+
+nnoremap <silent> yr :<C-u>let b:paste_replace_keys = ['block', '0']
+	\ <bar> set operatorfunc=<SID>Replace<CR>g@
+
+nnoremap <silent> dr :<C-u>let b:paste_replace_keys = ['replace', '"']
+	\ <bar> set operatorfunc=<SID>Replace<CR>g@
+
+nnoremap <silent> cy :<C-u>let b:paste_replace_keys = ['copy', '*']
 	\ <bar> set operatorfunc=<SID>Replace<CR>g@
 
 vnoremap <silent> cr "*p
 vnoremap <silent> yr "0p
 vnoremap <silent> cy "*y
-
-" TODO restore default register on mapping below
-nnoremap <silent> cyy V"*y
 
 "Paste vim "0 register
 nnoremap yp "0p
