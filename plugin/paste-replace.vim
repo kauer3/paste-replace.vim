@@ -79,11 +79,6 @@ function! s:IndentLines()
 		echom "GREAT SUCCESS!!!"
 	endif
 
-	" > . l:lines . k
-	" echom matchstr(l:bot_surround[1], '\%' . l:bot_surround[2] . 'c.')
-	" echom getline('.')[col('.')-1] 
-	" let l:top_surround = matchstr(getline('.'), '\%' . col('.') . 'c.')
-
 endfunction
 
 
@@ -162,6 +157,10 @@ function! s:Replace(type, ...)
 						silent exe 'normal! `[i=="' . l:keys[1] . 'P\<esc>'
 						echom '93'
 					endif
+
+				" TODO TODO TODO TODO TODO TODO
+				else
+					echom 'Something is wrong'
 
 				endif
 
