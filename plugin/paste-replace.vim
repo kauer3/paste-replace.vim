@@ -53,10 +53,10 @@ nnoremap <silent> dsr :call SearchAndReplace('"')<CR>
 
 function! s:ConcatLines()
 	silent exe "normal! `["
-	let l:start_text_obj = getline('.')
+	let l:start_text_obj = getcurpos()
 	silent exe "normal! `]"
-	let l:end_text_obj = getline('.')
-	let l:lines = l:end_text_obj - l:start_text_obj + 1
+	let l:end_text_obj = getcurpos()
+	let l:lines = l:end_text_obj[1] - l:start_text_obj[1] + 1
 	if l:lines > 1
 		silent exe "normal! `[" . l:lines . "J"
 	endif
@@ -67,12 +67,12 @@ endfunction
 " For now works only with linewise
 function! s:IndentLines()
 	silent exe "normal! `[k$"
-	let l:start_text_obj = getline('.')
+	let l:start_text_obj = getcurpos()
 	let l:top_surround = l:start_text_obj[col('.')-1] 
 	silent exe "normal! `]j^"
-	let l:end_text_obj = getline('.')
+	let l:end_text_obj = getcurpos()
 	let l:bot_surround = l:end_text_obj[col('.')-1] 
-	let l:lines = l:end_text_obj - l:start_text_obj + 1
+	let l:lines = l:end_text_obj[1] - l:start_text_obj[1] + 1
 
 	if ('{[<' =~ l:top_surround && char2nr(l:bot_surround) - char2nr(l:top_surround) == 2) || (l:top_surround == '(' && l:bot_surround == ')') || ('"' =~ l:top_surround && l:top_surround == l:bot_surround)
 		silent exe "normal! `[=`]"
@@ -86,7 +86,7 @@ function! s:Replace(type, ...)
 
 	let l:keys = b:paste_replace_keys
 	let l:reg_type = getregtype(l:keys[1])
-	echom 'The type is: ' . l:reg_type
+	" echom 'The type is: ' . l:reg_type
 
 	if l:keys[0] == 'copy'
 		let l:old_reg = getreg('"')
@@ -151,7 +151,7 @@ function! s:Replace(type, ...)
 						echom '101'
 					elseif l:keys[0] == 'v'
 						silent exe 'normal! `["' . l:keys[1] . 'P\<esc>'
-						" echom '101'
+						echom '***'
 					 	call s:ConcatLines()
 					elseif l:keys[0] == 'V'
 						silent exe 'normal! `[i=="' . l:keys[1] . 'P\<esc>'
