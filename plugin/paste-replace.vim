@@ -67,10 +67,10 @@ endfunction
 " For now works only with linewise
 function! s:IndentLines()
 	silent exe "normal! `[k$"
-	let l:start_text_obj = getcurpos()
+	let l:start_text_obj = getline('.')
 	let l:top_surround = l:start_text_obj[col('.')-1] 
 	silent exe "normal! `]j^"
-	let l:end_text_obj = getcurpos()
+	let l:end_text_obj = getline('.')
 	let l:bot_surround = l:end_text_obj[col('.')-1] 
 	let l:lines = l:end_text_obj[1] - l:start_text_obj[1] + 1
 
@@ -118,16 +118,18 @@ function! s:Replace(type, ...)
 	let l:end_text_obj = getcurpos()
 
 	if a:type == 'char'
+
+		" Replace empty text obeject
 		if l:start_text_obj[1] == l:end_text_obj[1] && l:start_text_obj[2] - l:end_text_obj[2] == 1
 			if l:keys[0] != 'copy'
 
 				if l:reg_type == 'v'
 					if l:keys[0] == 'v' || l:keys[0] == 'replace'
 						silent exe 'normal! `["' . l:keys[1] . 'P\<esc>'
-						" echom '90'
+						echom '90'
 					elseif l:keys[0] == 'V'
 						silent exe 'normal! `[i=="' . l:keys[1] . 'P\<esc>'
-						" echom '93'
+						echom '94'
 					endif
 
 				elseif l:reg_type == 'V'
@@ -138,24 +140,24 @@ function! s:Replace(type, ...)
 					 	call s:IndentLines()
 						" TODO TODO TODO TODO TODO TODO
 
-						" echom '98'
+						echom '98'
 					elseif l:keys[0] == 'v'
 						silent exe 'normal! `["' . l:keys[1] . 'P\<esc>'
-						" echom '101'
+						echom '101'
 					 	call s:ConcatLines()
 					endif
 
 				elseif l:reg_type =~ ''
 					if l:keys[0] == 'block' || l:keys[0] == 'replace'
 						silent exe 'normal! `["' . l:keys[1] . 'P\<esc>'
-						echom '101'
+						echom '102'
 					elseif l:keys[0] == 'v'
 						silent exe 'normal! `["' . l:keys[1] . 'P\<esc>'
-						echom '***'
+						echom '103'
 					 	call s:ConcatLines()
 					elseif l:keys[0] == 'V'
 						silent exe 'normal! `[i=="' . l:keys[1] . 'P\<esc>'
-						echom '93'
+						echom '104'
 					endif
 
 				" TODO TODO TODO TODO TODO TODO
@@ -169,6 +171,7 @@ function! s:Replace(type, ...)
 		else
 		" Regular yr operator
 			silent exe 'normal! `[v`]"' . l:keys[1] . l:method . '\<esc>'
+			echom "It's a trap!!"
 			if l:keys[0] == 'v'
 				call s:ConcatLines()
 			endif
@@ -247,7 +250,8 @@ nnoremap yP "0P
 
 " TODO fix to work with counts
 nnoremap <silent> yR :call feedkeys('yr$')<CR>
-nnoremap <silent> yrr :call feedkeys('Vyr$')<CR>
+nnoremap <silent> <expr> yrr ":<C-u>call feedkeys('" . v:count . "Vyr$')<CR>"
+" nnoremap <silent> <expr> yrr ":<C-u>echo " . v:count1 . "<CR>"
 nnoremap <silent> cR :call feedkeys('cr$')<CR>
 nnoremap <silent> crr :call feedkeys('Vcr$')<CR>
 
