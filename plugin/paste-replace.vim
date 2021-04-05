@@ -250,7 +250,10 @@ nnoremap yP "0P
 
 " TODO fix to work with counts
 nnoremap <silent> yR :call feedkeys('yr$')<CR>
-nnoremap <silent> <expr> yrr ":<C-u>call feedkeys('" . v:count . "Vyr$')<CR>"
+nnoremap <silent> <expr> yrr ":<C-u>call feedkeys('V"_y . v:count . "Vyr$')<CR>"
+
+" vy3v<esc>5v
+
 " nnoremap <silent> <expr> yrr ":<C-u>echo " . v:count1 . "<CR>"
 nnoremap <silent> cR :call feedkeys('cr$')<CR>
 nnoremap <silent> crr :call feedkeys('Vcr$')<CR>
