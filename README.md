@@ -18,7 +18,7 @@
 ## Introduction
 
   Paste-Replace provides new operators to replace text objects with register contents in vim. In other words, it makes it much easier to replace text with another text you had copied. Like any default vim operator, they can be preceded by a count and followed by any motion or operator-pending mode command. Also, if you happen to use a plugin that adds custom text objects, like [targets](https://github.com/wellle/targets.vim), or custom motions like [easymotion](https://github.com/easymotion/vim-easymotion), Paste-Replace will be compatible with it.
-  The two replace operators are `cr` (replace with system clipboard) and `yr` (replace with last yanked text), and there is also `cy`, that copies to the system clipboard.
+  The two replace operators are <kdb>cr</kdb> (replace with system clipboard) and <kbd>yr</kbd> (replace with last yanked text), and there is also <kbd>cy</kbd>, that copies to the system clipboard.
 
 ---
 

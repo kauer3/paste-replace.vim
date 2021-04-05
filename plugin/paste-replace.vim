@@ -58,6 +58,7 @@ function! s:ConcatLines()
 	let l:end_text_obj = getcurpos()
 	let l:lines = l:end_text_obj[1] - l:start_text_obj[1] + 1
 	if l:lines > 1
+		" TODO needs to go up one line when text object is not empty
 		silent exe "normal! `[" . l:lines . "J"
 	endif
 
@@ -82,6 +83,7 @@ function! s:IndentLines()
 endfunction
 
 
+" TODO try [P to autoindent on paste
 function! s:Replace(type, ...)
 
 	let l:keys = b:paste_replace_keys
@@ -119,7 +121,7 @@ function! s:Replace(type, ...)
 
 	if a:type == 'char'
 
-		" Replace empty text obeject
+		" Replace empty text object
 		if l:start_text_obj[1] == l:end_text_obj[1] && l:start_text_obj[2] - l:end_text_obj[2] == 1
 			if l:keys[0] != 'copy'
 
@@ -137,14 +139,14 @@ function! s:Replace(type, ...)
 						silent exe 'normal! `[i=="' . l:keys[1] . 'P\<esc>'
 
 						" TODO TODO TODO TODO TODO TODO
-					 	call s:IndentLines()
+					 	" call s:IndentLines()
 						" TODO TODO TODO TODO TODO TODO
 
 						echom '98'
 					elseif l:keys[0] == 'v'
 						silent exe 'normal! `["' . l:keys[1] . 'P\<esc>'
 						echom '101'
-					 	call s:ConcatLines()
+					 	" call s:ConcatLines()
 					endif
 
 				elseif l:reg_type =~ ''
@@ -154,7 +156,7 @@ function! s:Replace(type, ...)
 					elseif l:keys[0] == 'v'
 						silent exe 'normal! `["' . l:keys[1] . 'P\<esc>'
 						echom '103'
-					 	call s:ConcatLines()
+					 	" call s:ConcatLines()
 					elseif l:keys[0] == 'V'
 						silent exe 'normal! `[i=="' . l:keys[1] . 'P\<esc>'
 						echom '104'
@@ -169,13 +171,76 @@ function! s:Replace(type, ...)
 			endif
 
 		else
-		" Regular yr operator
-			silent exe 'normal! `[v`]"' . l:keys[1] . l:method . '\<esc>'
-			echom "It's a trap!!"
-			if l:keys[0] == 'v'
-				call s:ConcatLines()
+			if l:keys[0] != 'copy'
+			" Regular yr operator
+
+				if l:reg_type == 'v'
+					if l:keys[0] == 'v' || l:keys[0] == 'replace'
+						" silent exe 'normal! `["' . l:keys[1] . 'P\<esc>'
+						silent exe 'normal! `[v`]"' . l:keys[1] . l:method . '\<esc>'
+						echom '90'
+					elseif l:keys[0] == 'V'
+						" silent exe 'normal! `[v`]"' . l:keys[1] . l:method . '\<esc>'
+						silent exe 'normal! `[v`]c=="' . l:keys[1] . 'P\<esc>'
+						echom '94'
+					endif
+
+				elseif l:reg_type == 'V'
+					" if l:keys[0] == 'V' || l:keys[0] == 'replace'
+						" silent exe 'normal! `[i=="' . l:keys[1] . 'P\<esc>'
+					silent exe 'normal! `[v`]c=="' . l:keys[1] . 'P\<esc>'
+						" silent exe 'normal! `[v`]"' . l:keys[1] . l:method . '\<esc>'
+
+						" echom '98'
+					" elseif l:keys[0] == 'v'
+						" silent exe 'normal! `["' . l:keys[1] . 'P\<esc>'
+						" echom '101'
+					 	" " call s:ConcatLines()
+					" endif
+
+				elseif l:reg_type =~ ''
+					if l:keys[0] == 'block' || l:keys[0] == 'replace'
+						silent exe 'normal! `["' . l:keys[1] . 'P\<esc>'
+						echom '102'
+					elseif l:keys[0] == 'v'
+						" silent exe 'normal! `[v`]c=="' . l:keys[1] . 'P\<esc>'
+						silent exe 'normal! `[v`]c=="' . l:keys[1] . 'P\<esc>'
+						echom '103'
+					 	" call s:ConcatLines()
+					elseif l:keys[0] == 'V'
+						silent exe 'normal! `[c=="' . l:keys[1] . 'P\<esc>'
+						echom '104'
+					endif
+
+				" TODO TODO TODO TODO TODO TODO
+				else
+					echom 'Something is wrong'
+
+				endif
+
 			endif
+
+				" " TODO TODO TODO TODO TODO TODO
+		" " Regular yr operator
+			" silent exe 'normal! `[v`]"' . l:keys[1] . l:method . '\<esc>'
+			" echom "It's a trap!!"
+			" if l:keys[0] == 'v'
+				" call s:ConcatLines()
+			" elseif l:keys[0] == 'V'
+				" call s:IndentLines()
+			" endif
+				" " TODO TODO TODO TODO TODO TODO
+
 		endif
+
+		if (l:reg_type == 'V' && l:keys[0] == 'replace') ||	l:keys[0] == 'V'
+			call s:IndentLines()
+			echom 'Indented'
+		elseif l:reg_type != 'v' && l:keys[0] == 'v'
+			call s:ConcatLines()
+			echom 'Concatenated'
+		endif
+
 	elseif a:type == 'line'
 		echo "It's a Line!!"
 		silent exe 'normal! `[V`]' . l:keys[1] . '\<esc>'
@@ -250,11 +315,9 @@ nnoremap yP "0P
 
 " TODO fix to work with counts
 nnoremap <silent> yR :call feedkeys('yr$')<CR>
-nnoremap <silent> <expr> yrr ":<C-u>call feedkeys('V"_y" . v:count . "Vyr$')<CR>"
-
-" vy3v<esc>5v
-
-" nnoremap <silent> <expr> yrr ":<C-u>echo " . v:count1 . "<CR>"
+" TODO reset " register and apply mapping to crr, yR and cR also
+nnoremap <silent> <expr> yrr ":<C-u>call feedkeys('V\"_y" . v:count . "Vyr$')<CR>"
+" nnoremap <silent> <expr> Yrr ":<C-u>call feedkeys('Vyr$')<CR>"
 nnoremap <silent> cR :call feedkeys('cr$')<CR>
 nnoremap <silent> crr :call feedkeys('Vcr$')<CR>
 
