@@ -51,15 +51,22 @@ nnoremap <silent> ysr :call SearchAndReplace('0')<CR>
 nnoremap <silent> dsr :call SearchAndReplace('"')<CR>
 
 
-function! s:ConcatLines()
+function! s:ConcatLines(start_pos)
 	silent exe "normal! `["
 	let l:start_text_obj = getcurpos()
 	silent exe "normal! `]"
 	let l:end_text_obj = getcurpos()
-	let l:lines = l:end_text_obj[1] - l:start_text_obj[1] + 1
+	if a:start_pos == 'k'
+		let l:lines = l:end_text_obj[1] - l:start_text_obj[1] + 2
+	else
+		let l:lines = l:end_text_obj[1] - l:start_text_obj[1] + 1
+	endif
 	if l:lines > 1
 		" TODO needs to go up one line when text object is not empty
-		silent exe "normal! `[" . l:lines . "J"
+		silent exe "normal! `[" . a:start_pos . l:lines . "J`["
+		if matchstr(getline('.'), '\%' . col('.') . 'c.') == ' '
+			silent exe "normal! x"
+		endif
 	endif
 
 endfunction
@@ -68,12 +75,13 @@ endfunction
 " For now works only with linewise
 function! s:IndentLines()
 	silent exe "normal! `[k$"
-	let l:start_text_obj = getline('.')
-	let l:top_surround = l:start_text_obj[col('.')-1] 
+	" let l:start_text_obj = getline('.')
+	" let l:top_surround = l:start_text_obj[col('.')-1] 
+	let l:top_surround = matchstr(getline('.'), '\%' . col('.') . 'c.')
 	silent exe "normal! `]j^"
-	let l:end_text_obj = getline('.')
-	let l:bot_surround = l:end_text_obj[col('.')-1] 
-	let l:lines = l:end_text_obj[1] - l:start_text_obj[1] + 1
+	" let l:end_text_obj = getline('.')
+	let l:bot_surround = matchstr(getline('.'), '\%' . col('.') . 'c.')
+	" let l:lines = l:end_text_obj[1] - l:start_text_obj[1] + 1
 
 	if ('{[<' =~ l:top_surround && char2nr(l:bot_surround) - char2nr(l:top_surround) == 2) || (l:top_surround == '(' && l:bot_surround == ')') || ('"' =~ l:top_surround && l:top_surround == l:bot_surround)
 		silent exe "normal! `[=`]"
@@ -99,6 +107,7 @@ function! s:Replace(type, ...)
 			if l:keys[0] == 'v' 
 				let l:reg_buffer = getreg(l:keys[1])
 				let l:reg_data = trim(getreg(l:keys[1]))
+				echom 'trimmed'
 			else
 				" if l:keys[0] == 'V' 
 				" 	set autoindent
@@ -155,7 +164,7 @@ function! s:Replace(type, ...)
 						echom '102'
 					elseif l:keys[0] == 'v'
 						silent exe 'normal! `["' . l:keys[1] . 'P\<esc>'
-						echom '103'
+						" echom '103'
 					 	" call s:ConcatLines()
 					elseif l:keys[0] == 'V'
 						silent exe 'normal! `[i=="' . l:keys[1] . 'P\<esc>'
@@ -166,6 +175,11 @@ function! s:Replace(type, ...)
 				else
 					echom 'Something is wrong'
 
+				endif
+
+				if l:reg_type != 'v' && l:keys[0] == 'v'
+					call s:ConcatLines('')
+					" echom 'Concatenated'
 				endif
 
 			endif
@@ -205,7 +219,7 @@ function! s:Replace(type, ...)
 					elseif l:keys[0] == 'v'
 						" silent exe 'normal! `[v`]c=="' . l:keys[1] . 'P\<esc>'
 						silent exe 'normal! `[v`]c=="' . l:keys[1] . 'P\<esc>'
-						echom '103'
+						" echom '103'
 					 	" call s:ConcatLines()
 					elseif l:keys[0] == 'V'
 						silent exe 'normal! `[c=="' . l:keys[1] . 'P\<esc>'
@@ -216,6 +230,11 @@ function! s:Replace(type, ...)
 				else
 					echom 'Something is wrong'
 
+				endif
+
+				if l:reg_type != 'v' && l:keys[0] == 'v'
+					call s:ConcatLines('k')
+					" echom 'Concatenated'
 				endif
 
 			endif
@@ -236,9 +255,6 @@ function! s:Replace(type, ...)
 		if (l:reg_type == 'V' && l:keys[0] == 'replace') ||	l:keys[0] == 'V'
 			call s:IndentLines()
 			echom 'Indented'
-		elseif l:reg_type != 'v' && l:keys[0] == 'v'
-			call s:ConcatLines()
-			echom 'Concatenated'
 		endif
 
 	elseif a:type == 'line'
