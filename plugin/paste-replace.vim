@@ -325,17 +325,18 @@ vnoremap <silent> cr "*p
 vnoremap <silent> yr "0p
 vnoremap <silent> cy "*y
 
+" Replace Lines
+nnoremap <silent> <expr> yrr ":<C-u>call feedkeys('V\"_y" . v:count . "Vyr$')<CR>"
+nnoremap <silent> <expr> crr ":<C-u>call feedkeys('V\"_y" . v:count . "Vcr$')<CR>"
+nnoremap <silent> <expr> drr ":<C-u>call feedkeys('V\"_y" . v:count . "Vdr$')<CR>"
+
 "Paste vim "0 register
 nnoremap yp "0p
 nnoremap yP "0P
 
-" TODO fix to work with counts
-nnoremap <silent> yR :call feedkeys('yr$')<CR>
 " TODO reset " register and apply mapping to crr, yR and cR also
-nnoremap <silent> <expr> yrr ":<C-u>call feedkeys('V\"_y" . v:count . "Vyr$')<CR>"
-" nnoremap <silent> <expr> Yrr ":<C-u>call feedkeys('Vyr$')<CR>"
+nnoremap <silent> yR :call feedkeys('yr$')<CR>
 nnoremap <silent> cR :call feedkeys('cr$')<CR>
-nnoremap <silent> crr :call feedkeys('Vcr$')<CR>
 
 
 "Paste from clipboard
