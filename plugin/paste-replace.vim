@@ -1,4 +1,6 @@
 " TODO Add count to all mappings possible
+" TODO Add way to force replace blockwise
+" TODO Add way to force paste block/line/characterwise
 
 if exists("g:loaded_paste_replace") || &cp
   finish
@@ -325,18 +327,21 @@ vnoremap <silent> cr "*p
 vnoremap <silent> yr "0p
 vnoremap <silent> cy "*y
 
-" Replace Lines
-nnoremap <silent> <expr> yrr ":<C-u>call feedkeys('V\"_y" . v:count . "Vyr$')<CR>"
-nnoremap <silent> <expr> crr ":<C-u>call feedkeys('V\"_y" . v:count . "Vcr$')<CR>"
-nnoremap <silent> <expr> drr ":<C-u>call feedkeys('V\"_y" . v:count . "Vdr$')<CR>"
+" Replace lines
+nnoremap <silent> <expr> yrr ":<C-u>call feedkeys('V\"_y" . v:count1 . "Vyr$')<CR>"
+nnoremap <silent> <expr> crr ":<C-u>call feedkeys('V\"_y" . v:count1 . "Vcr$')<CR>"
+nnoremap <silent> <expr> drr ":<C-u>call feedkeys('V\"_y" . v:count1 . "Vdr$')<CR>"
 
 "Paste vim "0 register
 nnoremap yp "0p
 nnoremap yP "0P
 
 " TODO reset " register and apply mapping to crr, yR and cR also
-nnoremap <silent> yR :call feedkeys('yr$')<CR>
-nnoremap <silent> cR :call feedkeys('cr$')<CR>
+nnoremap <silent> <expr> yR ":<C-u>call feedkeys('" . v:count1 . "D\"0p')<CR>"
+	\ <bar> :<C-u>call ConcatLines('')
+nnoremap <silent> <expr> cR ":<C-u>call feedkeys('" . v:count1 . "D\"*p')<CR>"
+" nnoremap <silent> yR :call feedkeys('yr$')<CR>
+" nnoremap <silent> cR :call feedkeys('cr$')<CR>
 
 
 "Paste from clipboard
