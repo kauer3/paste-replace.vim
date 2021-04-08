@@ -1,6 +1,7 @@
 " TODO Add count to all mappings possible
 " TODO Add way to force replace blockwise
 " TODO Add way to force paste block/line/characterwise
+" TODO Add variables for user configuration (reset default register, ...)
 
 if exists("g:loaded_paste_replace") || &cp
   finish
@@ -216,7 +217,7 @@ function! s:Replace(type, ...)
 
 				elseif l:reg_type =~ ''
 					if l:keys[0] == 'block' || l:keys[0] == 'replace'
-						silent exe 'normal! `["' . l:keys[1] . 'P\<esc>'
+						silent exe 'normal! `[v`]"' . l:keys[1] . 'P\<esc>'
 						echom '102'
 					elseif l:keys[0] == 'v'
 						" silent exe 'normal! `[v`]c=="' . l:keys[1] . 'P\<esc>'
@@ -338,7 +339,7 @@ nnoremap yP "0P
 
 " TODO reset " register and apply mapping to crr, yR and cR also
 nnoremap <silent> <expr> yR ":<C-u>call feedkeys('" . v:count1 . "D\"0p')<CR>"
-	\ <bar> :<C-u>call s:ConcatLines('')
+	\ <bar> :<C-u>call s:ConcatLines('k')
 nnoremap <silent> <expr> cR ":<C-u>call feedkeys('" . v:count1 . "D\"*p')<CR>"
 " nnoremap <silent> yR :call feedkeys('yr$')<CR>
 " nnoremap <silent> cR :call feedkeys('cr$')<CR>
