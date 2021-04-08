@@ -338,7 +338,7 @@ nnoremap yP "0P
 
 " TODO reset " register and apply mapping to crr, yR and cR also
 nnoremap <silent> <expr> yR ":<C-u>call feedkeys('" . v:count1 . "D\"0p')<CR>"
-	\ <bar> :<C-u>call ConcatLines('')
+	\ <bar> :<C-u>call s:ConcatLines('')
 nnoremap <silent> <expr> cR ":<C-u>call feedkeys('" . v:count1 . "D\"*p')<CR>"
 " nnoremap <silent> yR :call feedkeys('yr$')<CR>
 " nnoremap <silent> cR :call feedkeys('cr$')<CR>
