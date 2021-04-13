@@ -54,9 +54,11 @@ nnoremap <silent> ysr :call SearchAndReplace('0')<CR>
 nnoremap <silent> dsr :call SearchAndReplace('"')<CR>
 
 
-function! s:ConcatLines(start_pos)
+function! s:ConcatLines(start_pos, is_empty)
 	silent exe "normal! `["
 	let l:start_text_obj = getcurpos()
+	silent exe "normal! h"
+	echom matchstr(getline('.'), '\%' . col('.') . 'c.')
 	silent exe "normal! `]"
 	let l:end_text_obj = getcurpos()
 	if a:start_pos == 'k'
@@ -67,7 +69,7 @@ function! s:ConcatLines(start_pos)
 	if l:lines > 1
 		" TODO needs to go up one line when text object is not empty
 		silent exe "normal! `[" . a:start_pos . l:lines . "J`["
-		if matchstr(getline('.'), '\%' . col('.') . 'c.') == ' '
+		if matchstr(getline('.'), '\%' . col('.') . 'c.') == ' ' && a:is_empty == '0'
 			silent exe "normal! x"
 		endif
 	endif
@@ -86,7 +88,8 @@ function! s:IndentLines()
 	let l:bot_surround = matchstr(getline('.'), '\%' . col('.') . 'c.')
 	" let l:lines = l:end_text_obj[1] - l:start_text_obj[1] + 1
 
-	if ('{[<' =~ l:top_surround && char2nr(l:bot_surround) - char2nr(l:top_surround) == 2) || (l:top_surround == '(' && l:bot_surround == ')') || ('"' =~ l:top_surround && l:top_surround == l:bot_surround)
+	" if ('{[<' =~ l:top_surround && char2nr(l:bot_surround) - char2nr(l:top_surround) == 2) || (l:top_surround == '(' && l:bot_surround == ')') || (('"' =~ l:top_surround) || ("'" =~ l:top_surround) && l:top_surround == l:bot_surround)
+	if ('{[<' =~ l:top_surround && char2nr(l:bot_surround) - char2nr(l:top_surround) == 2) || (l:top_surround == '(' && l:bot_surround == ')') || ('\'"' =~ l:top_surround && l:top_surround == l:bot_surround)
 		silent exe "normal! `[=`]"
 		echom "GREAT SUCCESS!!!"
 	endif
@@ -181,7 +184,7 @@ function! s:Replace(type, ...)
 				endif
 
 				if l:reg_type != 'v' && l:keys[0] == 'v'
-					call s:ConcatLines('')
+					call s:ConcatLines('', 1)
 					" echom 'Concatenated'
 				endif
 
@@ -236,7 +239,7 @@ function! s:Replace(type, ...)
 				endif
 
 				if l:reg_type != 'v' && l:keys[0] == 'v'
-					call s:ConcatLines('k')
+					call s:ConcatLines('k', 0)
 					" echom 'Concatenated'
 				endif
 
@@ -257,7 +260,7 @@ function! s:Replace(type, ...)
 
 		if (l:reg_type == 'V' && l:keys[0] == 'replace') ||	l:keys[0] == 'V'
 			call s:IndentLines()
-			echom 'Indented'
+			" echom 'Indented'
 		endif
 
 	elseif a:type == 'line'
@@ -339,7 +342,7 @@ nnoremap yP "0P
 
 " TODO reset " register and apply mapping to crr, yR and cR also
 nnoremap <silent> <expr> yR ":<C-u>call feedkeys('" . v:count1 . "D\"0p')<CR>"
-	\ <bar> :<C-u>call s:ConcatLines('k')
+	\ <bar> :<C-u>call s:ConcatLines('k', 0)
 nnoremap <silent> <expr> cR ":<C-u>call feedkeys('" . v:count1 . "D\"*p')<CR>"
 " nnoremap <silent> yR :call feedkeys('yr$')<CR>
 " nnoremap <silent> cR :call feedkeys('cr$')<CR>
