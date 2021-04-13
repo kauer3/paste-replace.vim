@@ -57,8 +57,6 @@ nnoremap <silent> dsr :call SearchAndReplace('"')<CR>
 function! s:ConcatLines(start_pos, is_empty)
 	silent exe "normal! `["
 	let l:start_text_obj = getcurpos()
-	silent exe "normal! h"
-	echom matchstr(getline('.'), '\%' . col('.') . 'c.')
 	silent exe "normal! `]"
 	let l:end_text_obj = getcurpos()
 	if a:start_pos == 'k'
@@ -89,7 +87,7 @@ function! s:IndentLines()
 	" let l:lines = l:end_text_obj[1] - l:start_text_obj[1] + 1
 
 	" if ('{[<' =~ l:top_surround && char2nr(l:bot_surround) - char2nr(l:top_surround) == 2) || (l:top_surround == '(' && l:bot_surround == ')') || (('"' =~ l:top_surround) || ("'" =~ l:top_surround) && l:top_surround == l:bot_surround)
-	if ('{[<' =~ l:top_surround && char2nr(l:bot_surround) - char2nr(l:top_surround) == 2) || (l:top_surround == '(' && l:bot_surround == ')') || ('\'"' =~ l:top_surround && l:top_surround == l:bot_surround)
+	if ('{[<' =~ l:top_surround && char2nr(l:bot_surround) - char2nr(l:top_surround) == 2) || (l:top_surround == '(' && l:bot_surround == ')') || ('"' =~ l:top_surround && l:top_surround == l:bot_surround)
 		silent exe "normal! `[=`]"
 		echom "GREAT SUCCESS!!!"
 	endif
