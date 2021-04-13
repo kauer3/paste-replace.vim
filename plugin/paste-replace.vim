@@ -106,7 +106,7 @@ function! s:IndentLines()
 
 	" if ('{[<' =~ l:top_surround && char2nr(l:bot_surround) - char2nr(l:top_surround) == 2) || (l:top_surround == '(' && l:bot_surround == ')') || (('"' =~ l:top_surround) || ("'" =~ l:top_surround) && l:top_surround == l:bot_surround)
 	if ('{[<' =~ l:top_surround && char2nr(l:bot_surround) - char2nr(l:top_surround) == 2) || (l:top_surround == '(' && l:bot_surround == ')') || ('"' =~ l:top_surround && l:top_surround == l:bot_surround)
-		silent exe "normal! `]j=`["
+		silent exe "normal! `[=`]j=="
 		" echom "Indent completed"
 	endif
 
