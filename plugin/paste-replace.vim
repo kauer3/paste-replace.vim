@@ -106,7 +106,8 @@ function! s:IndentLines()
 
 	" if ('{[<' =~ l:top_surround && char2nr(l:bot_surround) - char2nr(l:top_surround) == 2) || (l:top_surround == '(' && l:bot_surround == ')') || (('"' =~ l:top_surround) || ("'" =~ l:top_surround) && l:top_surround == l:bot_surround)
 	if ('{[<' =~ l:top_surround && char2nr(l:bot_surround) - char2nr(l:top_surround) == 2) || (l:top_surround == '(' && l:bot_surround == ')') || ('"' =~ l:top_surround && l:top_surround == l:bot_surround)
-		silent exe "normal! `]=`[j=="
+		silent exe "normal! `[=`]"
+		" silent exe "normal! `]=`[j=="
 		" echom "Indent completed"
 	endif
 
@@ -162,15 +163,15 @@ function! s:Replace(type, ...)
 					silent exe 'normal! `["' . l:keys[1] . 'P\<esc>'
 					echom 'char to char (empty text object)'
 				elseif l:keys[0] == 'V'
-					" silent exe 'normal! `[i=="' . l:keys[1] . 'P\<esc>'
-					silent exe 'normal! `[i"' . l:keys[1] . 'P\<esc>'
+					silent exe 'normal! `[i=="' . l:keys[1] . 'P\<esc>'
+					" silent exe 'normal! `[i"' . l:keys[1] . 'P\<esc>'
 					echom 'char to line (empty text object)'
 				endif
 
 			elseif l:reg_type == 'V'
 				if l:keys[0] == 'V' || l:keys[0] == 'replace'
-					" silent exe 'normal! `[i=="' . l:keys[1] . 'P\<esc>'
-					silent exe 'normal! `[i"' . l:keys[1] . 'P\<esc>'
+					silent exe 'normal! `[i=="' . l:keys[1] . 'P\<esc>'
+					" silent exe 'normal! `[i"' . l:keys[1] . 'P\<esc>'
 
 					echom 'line to line (empty text object)'
 				elseif l:keys[0] == 'v'
@@ -186,8 +187,8 @@ function! s:Replace(type, ...)
 					silent exe 'normal! `["' . l:keys[1] . 'P\<esc>'
 					echom 'block to char (empty text object)'
 				elseif l:keys[0] == 'V'
-					" silent exe 'normal! `[i=="' . l:keys[1] . 'P\<esc>'
-					silent exe 'normal! `[i"' . l:keys[1] . 'P\<esc>'
+					silent exe 'normal! `[i=="' . l:keys[1] . 'P\<esc>'
+					" silent exe 'normal! `[i"' . l:keys[1] . 'P\<esc>'
 					echom 'block to line (empty text object)'
 				endif
 
@@ -214,8 +215,8 @@ function! s:Replace(type, ...)
 					silent exe 'normal! `[v`]"' . l:keys[1] . l:method . '\<esc>'
 					echom 'char to char (not empty text object)'
 				elseif l:keys[0] == 'V'
-					" silent exe 'normal! `[v`]c=="' . l:keys[1] . 'P\<esc>'
-					silent exe 'normal! `[v`]c"' . l:keys[1] . 'P\<esc>'
+					silent exe 'normal! `[v`]c=="' . l:keys[1] . 'P\<esc>'
+					" silent exe 'normal! `[v`]c"' . l:keys[1] . 'P\<esc>'
 					echom 'char to line (not empty text object)'
 				endif
 
@@ -226,8 +227,8 @@ function! s:Replace(type, ...)
 					echom 'line to block (not empty text object)'
 				else
 					" if l:keys[0] =~ 'Vv' || l:keys[0] == 'replace'
-					" silent exe 'normal! `[v`]c=="' . l:keys[1] . 'P\<esc>'
-					silent exe 'normal! `[v`]c"' . l:keys[1] . 'P\<esc>'
+					silent exe 'normal! `[v`]c=="' . l:keys[1] . 'P\<esc>'
+					" silent exe 'normal! `[v`]c"' . l:keys[1] . 'P\<esc>'
 						" silent exe 'normal! `[v`]"' . l:keys[1] . l:method . '\<esc>'
 
 					echom 'line to line or char (not empty text object)'
@@ -239,12 +240,12 @@ function! s:Replace(type, ...)
 					" echom 'block to block (not empty text object)'
 					echom l:keys[0]
 				elseif l:keys[0] == 'v'
-					" silent exe 'normal! `[v`]c=="' . l:keys[1] . 'P\<esc>'
-					silent exe 'normal! `[v`]c"' . l:keys[1] . 'P\<esc>'
+					silent exe 'normal! `[v`]c=="' . l:keys[1] . 'P\<esc>'
+					" silent exe 'normal! `[v`]c"' . l:keys[1] . 'P\<esc>'
 					echom 'block to char (not empty text object)'
 				elseif l:keys[0] == 'V'
-					" silent exe 'normal! `[v`]c=="' . l:keys[1] . 'P\<esc>'
-					silent exe 'normal! `[v`]c"' . l:keys[1] . 'P\<esc>'
+					silent exe 'normal! `[v`]c=="' . l:keys[1] . 'P\<esc>'
+					" silent exe 'normal! `[v`]c"' . l:keys[1] . 'P\<esc>'
 					echom 'block to line (not empty text object)'
 				endif
 
