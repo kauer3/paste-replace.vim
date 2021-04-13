@@ -222,7 +222,7 @@ function! s:Replace(type, ...)
 
 			elseif l:reg_type == 'V'
 				if l:keys[0] == 'block'
-					silent exe 'normal! `[v`]"' . l:keys[1] . 'P\<esc>'
+					silent exe 'normal! `[\<C-V>`]"' . l:keys[1] . 'P\<esc>'
 					" silent exe 'normal! `["' . l:keys[1] . 'P\<esc>'
 					echom 'line to block (not empty text object)'
 				else
