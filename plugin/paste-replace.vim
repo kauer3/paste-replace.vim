@@ -6,6 +6,20 @@
 " TODO Check if Replace is working without original type conditions
 " TODO Test and check SearchAndReplace relevance
 
+" TODO Tests:
+
+	" Replace characterwise with characterwise
+	" Replace characterwise with linewise
+	" Replace characterwise with blockwise
+
+	" Replace linewise with characterwise
+	" Replace linewise with linewise
+	" Replace linewise with blockwise
+
+	" Replace blockwise with characterwise
+	" Replace blockwise with linewise
+	" Replace blockwise with blockwise
+
 if exists("g:loaded_paste_replace") || &cp
   finish
 endif
