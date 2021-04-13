@@ -2,7 +2,7 @@
 " TODO Implement 'cw' special case when replacing word
 " TODO Add way to force replace blockwise
 " TODO Add way to force paste block/line/characterwise
-" TODO Add variables for user configuration (reset default register, ...)
+" TODO Add variables for user configuration (reset default register, disable auto-indent,...)
 " TODO Check if Replace is working without original type conditions
 " TODO Test and check SearchAndReplace relevance
 " TODO Fix replace inside '(' when text object have multiple lines
@@ -177,7 +177,7 @@ function! s:Replace(type, ...)
 				endif
 
 			elseif l:reg_type =~ ''
-				if l:keys[0] == 'block' || l:keys[0] == 'replace'
+				if l:keys[0] =~ '' || l:keys[0] == 'replace'
 					silent exe 'normal! `["' . l:keys[1] . 'P\<esc>'
 					echom 'block to block (empty text object)'
 				elseif l:keys[0] == 'v'
@@ -217,21 +217,24 @@ function! s:Replace(type, ...)
 				endif
 
 			elseif l:reg_type == 'V'
-				" if l:keys[0] == 'V' || l:keys[0] == 'replace'
-					" silent exe 'normal! `[i=="' . l:keys[1] . 'P\<esc>'
-				silent exe 'normal! `[v`]c=="' . l:keys[1] . 'P\<esc>'
-					" silent exe 'normal! `[v`]"' . l:keys[1] . l:method . '\<esc>'
-
-				echom 'line to line or char (not empty text object)'
-				" elseif l:keys[0] == 'v'
+				if l:keys[0] == 'block'
+					silent exe 'normal! `[v`]"' . l:keys[1] . 'P\<esc>'
 					" silent exe 'normal! `["' . l:keys[1] . 'P\<esc>'
-					" echom 'line to char (not empty text object)'
-				" endif
+					echom 'line to block (not empty text object)'
+				else
+					" if l:keys[0] =~ 'Vv' || l:keys[0] == 'replace'
+						" silent exe 'normal! `[i=="' . l:keys[1] . 'P\<esc>'
+					silent exe 'normal! `[v`]c=="' . l:keys[1] . 'P\<esc>'
+						" silent exe 'normal! `[v`]"' . l:keys[1] . l:method . '\<esc>'
+
+					echom 'line to line or char (not empty text object)'
+				endif
 
 			elseif l:reg_type =~ ''
-				if l:keys[0] == 'block' || l:keys[0] == 'replace'
+				if l:keys[0] =~ '' || l:keys[0] == 'replace'
 					silent exe 'normal! `[v`]"' . l:keys[1] . 'P\<esc>'
-					echom 'block to block (not empty text object)'
+					" echom 'block to block (not empty text object)'
+					echom l:keys[0]
 				elseif l:keys[0] == 'v'
 					silent exe 'normal! `[v`]c=="' . l:keys[1] . 'P\<esc>'
 					echom 'block to char (not empty text object)'
