@@ -132,142 +132,143 @@ function! s:Replace(type, ...)
 	silent exe "normal! `]"
 	let l:end_text_obj = getcurpos()
 
-	if a:type == 'char'
 
-		" Replace empty text object
-		if l:start_text_obj[1] == l:end_text_obj[1] && l:start_text_obj[2] - l:end_text_obj[2] == 1
-			if l:keys[0] != 'copy'
+	" if a:type == 'char'
 
-				if l:reg_type == 'v'
-					if l:keys[0] == 'v' || l:keys[0] == 'replace'
-						silent exe 'normal! `["' . l:keys[1] . 'P\<esc>'
-						echom '90'
-					elseif l:keys[0] == 'V'
-						silent exe 'normal! `[i=="' . l:keys[1] . 'P\<esc>'
-						echom '94'
-					endif
+	" Replace empty text object
+	if l:start_text_obj[1] == l:end_text_obj[1] && l:start_text_obj[2] - l:end_text_obj[2] == 1
+		if l:keys[0] != 'copy'
 
-				elseif l:reg_type == 'V'
-					if l:keys[0] == 'V' || l:keys[0] == 'replace'
-						silent exe 'normal! `[i=="' . l:keys[1] . 'P\<esc>'
-
-						" TODO TODO TODO TODO TODO TODO
-					 	" call s:IndentLines()
-						" TODO TODO TODO TODO TODO TODO
-
-						echom '98'
-					elseif l:keys[0] == 'v'
-						silent exe 'normal! `["' . l:keys[1] . 'P\<esc>'
-						echom '101'
-					 	" call s:ConcatLines()
-					endif
-
-				elseif l:reg_type =~ ''
-					if l:keys[0] == 'block' || l:keys[0] == 'replace'
-						silent exe 'normal! `["' . l:keys[1] . 'P\<esc>'
-						echom '102'
-					elseif l:keys[0] == 'v'
-						silent exe 'normal! `["' . l:keys[1] . 'P\<esc>'
-						" echom '103'
-					 	" call s:ConcatLines()
-					elseif l:keys[0] == 'V'
-						silent exe 'normal! `[i=="' . l:keys[1] . 'P\<esc>'
-						echom '104'
-					endif
-
-				" TODO TODO TODO TODO TODO TODO
-				else
-					echom 'Something is wrong'
-
+			if l:reg_type == 'v'
+				if l:keys[0] == 'v' || l:keys[0] == 'replace'
+					silent exe 'normal! `["' . l:keys[1] . 'P\<esc>'
+					echom '90'
+				elseif l:keys[0] == 'V'
+					silent exe 'normal! `[i=="' . l:keys[1] . 'P\<esc>'
+					echom '94'
 				endif
 
-				if l:reg_type != 'v' && l:keys[0] == 'v'
-					call s:ConcatLines('', 1)
-					" echom 'Concatenated'
+			elseif l:reg_type == 'V'
+				if l:keys[0] == 'V' || l:keys[0] == 'replace'
+					silent exe 'normal! `[i=="' . l:keys[1] . 'P\<esc>'
+
+					" TODO TODO TODO TODO TODO TODO
+					" call s:IndentLines()
+					" TODO TODO TODO TODO TODO TODO
+
+					echom '98'
+				elseif l:keys[0] == 'v'
+					silent exe 'normal! `["' . l:keys[1] . 'P\<esc>'
+					echom '101'
+					" call s:ConcatLines()
 				endif
+
+			elseif l:reg_type =~ ''
+				if l:keys[0] == 'block' || l:keys[0] == 'replace'
+					silent exe 'normal! `["' . l:keys[1] . 'P\<esc>'
+					echom '102'
+				elseif l:keys[0] == 'v'
+					silent exe 'normal! `["' . l:keys[1] . 'P\<esc>'
+					" echom '103'
+					" call s:ConcatLines()
+				elseif l:keys[0] == 'V'
+					silent exe 'normal! `[i=="' . l:keys[1] . 'P\<esc>'
+					echom '104'
+				endif
+
+			" TODO TODO TODO TODO TODO TODO
+			else
+				echom 'Something is wrong'
 
 			endif
 
-		else
-			if l:keys[0] != 'copy'
-			" Regular yr operator
+			if l:reg_type != 'v' && l:keys[0] == 'v'
+				call s:ConcatLines('', 1)
+				" echom 'Concatenated'
+			endif
 
-				if l:reg_type == 'v'
-					if l:keys[0] == 'v' || l:keys[0] == 'replace'
-						" silent exe 'normal! `["' . l:keys[1] . 'P\<esc>'
-						silent exe 'normal! `[v`]"' . l:keys[1] . l:method . '\<esc>'
-						echom '90'
-					elseif l:keys[0] == 'V'
-						" silent exe 'normal! `[v`]"' . l:keys[1] . l:method . '\<esc>'
-						silent exe 'normal! `[v`]c=="' . l:keys[1] . 'P\<esc>'
-						echom '94'
-					endif
+		endif
 
-				elseif l:reg_type == 'V'
-					" if l:keys[0] == 'V' || l:keys[0] == 'replace'
-						" silent exe 'normal! `[i=="' . l:keys[1] . 'P\<esc>'
+	else
+		if l:keys[0] != 'copy'
+		" Regular yr operator
+
+			if l:reg_type == 'v'
+				if l:keys[0] == 'v' || l:keys[0] == 'replace'
+					" silent exe 'normal! `["' . l:keys[1] . 'P\<esc>'
+					silent exe 'normal! `[v`]"' . l:keys[1] . l:method . '\<esc>'
+					echom '90'
+				elseif l:keys[0] == 'V'
+					" silent exe 'normal! `[v`]"' . l:keys[1] . l:method . '\<esc>'
 					silent exe 'normal! `[v`]c=="' . l:keys[1] . 'P\<esc>'
-						" silent exe 'normal! `[v`]"' . l:keys[1] . l:method . '\<esc>'
-
-						" echom '98'
-					" elseif l:keys[0] == 'v'
-						" silent exe 'normal! `["' . l:keys[1] . 'P\<esc>'
-						" echom '101'
-					 	" " call s:ConcatLines()
-					" endif
-
-				elseif l:reg_type =~ ''
-					if l:keys[0] == 'block' || l:keys[0] == 'replace'
-						silent exe 'normal! `[v`]"' . l:keys[1] . 'P\<esc>'
-						echom '102'
-					elseif l:keys[0] == 'v'
-						" silent exe 'normal! `[v`]c=="' . l:keys[1] . 'P\<esc>'
-						silent exe 'normal! `[v`]c=="' . l:keys[1] . 'P\<esc>'
-						" echom '103'
-					 	" call s:ConcatLines()
-					elseif l:keys[0] == 'V'
-						silent exe 'normal! `[c=="' . l:keys[1] . 'P\<esc>'
-						echom '104'
-					endif
-
-				" TODO TODO TODO TODO TODO TODO
-				else
-					echom 'Something is wrong'
-
+					echom '94'
 				endif
 
-				if l:reg_type != 'v' && l:keys[0] == 'v'
-					call s:ConcatLines('k', 0)
-					" echom 'Concatenated'
+			elseif l:reg_type == 'V'
+				" if l:keys[0] == 'V' || l:keys[0] == 'replace'
+					" silent exe 'normal! `[i=="' . l:keys[1] . 'P\<esc>'
+				silent exe 'normal! `[v`]c=="' . l:keys[1] . 'P\<esc>'
+					" silent exe 'normal! `[v`]"' . l:keys[1] . l:method . '\<esc>'
+
+					" echom '98'
+				" elseif l:keys[0] == 'v'
+					" silent exe 'normal! `["' . l:keys[1] . 'P\<esc>'
+					" echom '101'
+					" " call s:ConcatLines()
+				" endif
+
+			elseif l:reg_type =~ ''
+				if l:keys[0] == 'block' || l:keys[0] == 'replace'
+					silent exe 'normal! `[v`]"' . l:keys[1] . 'P\<esc>'
+					echom '102'
+				elseif l:keys[0] == 'v'
+					" silent exe 'normal! `[v`]c=="' . l:keys[1] . 'P\<esc>'
+					silent exe 'normal! `[v`]c=="' . l:keys[1] . 'P\<esc>'
+					" echom '103'
+					" call s:ConcatLines()
+				elseif l:keys[0] == 'V'
+					silent exe 'normal! `[c=="' . l:keys[1] . 'P\<esc>'
+					echom '104'
 				endif
+
+			" TODO TODO TODO TODO TODO TODO
+			else
+				echom 'Something is wrong'
 
 			endif
 
-				" " TODO TODO TODO TODO TODO TODO
-		" " Regular yr operator
-			" silent exe 'normal! `[v`]"' . l:keys[1] . l:method . '\<esc>'
-			" echom "It's a trap!!"
-			" if l:keys[0] == 'v'
-				" call s:ConcatLines()
-			" elseif l:keys[0] == 'V'
-				" call s:IndentLines()
-			" endif
-				" " TODO TODO TODO TODO TODO TODO
+			if l:reg_type != 'v' && l:keys[0] == 'v'
+				call s:ConcatLines('k', 0)
+				" echom 'Concatenated'
+			endif
 
 		endif
 
-		if (l:reg_type == 'V' && l:keys[0] == 'replace') ||	l:keys[0] == 'V'
-			call s:IndentLines()
-			" echom 'Indented'
-		endif
+			" " TODO TODO TODO TODO TODO TODO
+	" " Regular yr operator
+		" silent exe 'normal! `[v`]"' . l:keys[1] . l:method . '\<esc>'
+		" echom "It's a trap!!"
+		" if l:keys[0] == 'v'
+			" call s:ConcatLines()
+		" elseif l:keys[0] == 'V'
+			" call s:IndentLines()
+		" endif
+			" " TODO TODO TODO TODO TODO TODO
 
-	elseif a:type == 'line'
-		echo "It's a Line!!"
-		silent exe 'normal! `[V`]' . l:keys[1] . '\<esc>'
-	elseif a:type == 'block'
-		echo "It's a Block!!"
-		silent exe 'normal! `[\<C-V>`]' . l:keys[1] . '\<esc>'
 	endif
+
+	if (l:reg_type == 'V' && l:keys[0] == 'replace') ||	l:keys[0] == 'V'
+		call s:IndentLines()
+		" echom 'Indented'
+	endif
+
+	" elseif a:type == 'line'
+	" 	echo "It's a Line!!"
+	" 	silent exe 'normal! `[V`]' . l:keys[1] . '\<esc>'
+	" elseif a:type == 'block'
+	" 	echo "It's a Block!!"
+	" 	silent exe 'normal! `[\<C-V>`]' . l:keys[1] . '\<esc>'
+	" endif
 
 
 	if l:keys[0] == 'copy'
