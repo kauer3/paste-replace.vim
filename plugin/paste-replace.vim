@@ -5,6 +5,7 @@
 " TODO Add variables for user configuration (reset default register, ...)
 " TODO Check if Replace is working without original type conditions
 " TODO Test and check SearchAndReplace relevance
+" TODO Fix replace inside '(' when text object have multiple lines
 
 " TODO Tests:
 
