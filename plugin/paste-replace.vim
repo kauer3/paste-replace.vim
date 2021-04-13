@@ -269,6 +269,7 @@ function! s:Replace(type, ...)
 
 	endif
 
+	" TODO Add condition to check (variable) if user enabled/disabled auto-indent
 	if (l:reg_type == 'V' && l:keys[0] == 'replace') ||	l:keys[0] == 'V'
 		call s:IndentLines()
 		" echom 'Indented'
