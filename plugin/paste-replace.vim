@@ -2,6 +2,8 @@
 " TODO Add way to force replace blockwise
 " TODO Add way to force paste block/line/characterwise
 " TODO Add variables for user configuration (reset default register, ...)
+" TODO Check if Replace is working without original type conditions
+" TODO Check SearchAndReplace relevance
 
 if exists("g:loaded_paste_replace") || &cp
   finish
