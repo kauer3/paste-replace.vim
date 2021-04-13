@@ -106,7 +106,7 @@ function! s:IndentLines()
 
 	" if ('{[<' =~ l:top_surround && char2nr(l:bot_surround) - char2nr(l:top_surround) == 2) || (l:top_surround == '(' && l:bot_surround == ')') || (('"' =~ l:top_surround) || ("'" =~ l:top_surround) && l:top_surround == l:bot_surround)
 	if ('{[<' =~ l:top_surround && char2nr(l:bot_surround) - char2nr(l:top_surround) == 2) || (l:top_surround == '(' && l:bot_surround == ')') || ('"' =~ l:top_surround && l:top_surround == l:bot_surround)
-		silent exe "normal! `[=`]j=="
+		silent exe "normal! `]=`[j=="
 		" echom "Indent completed"
 	endif
 
@@ -335,7 +335,7 @@ nnoremap <silent> yrv :<C-u>let b:paste_replace_keys = ['v', '0']
 nnoremap <silent> yrV :<C-u>let b:paste_replace_keys = ['V', '0']
 	\ <bar> set operatorfunc=<SID>Replace<CR>g@
 
-nnoremap <silent> yr :<C-u>let b:paste_replace_keys = ['block', '0']
+nnoremap <silent> yrb :<C-u>let b:paste_replace_keys = ['block', '0']
 	\ <bar> set operatorfunc=<SID>Replace<CR>g@
 
 nnoremap <silent> dr :<C-u>let b:paste_replace_keys = ['replace', '"']
