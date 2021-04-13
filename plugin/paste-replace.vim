@@ -152,15 +152,10 @@ function! s:Replace(type, ...)
 				if l:keys[0] == 'V' || l:keys[0] == 'replace'
 					silent exe 'normal! `[i=="' . l:keys[1] . 'P\<esc>'
 
-					" TODO TODO TODO TODO TODO TODO
-					" call s:IndentLines()
-					" TODO TODO TODO TODO TODO TODO
-
 					echom '98'
 				elseif l:keys[0] == 'v'
 					silent exe 'normal! `["' . l:keys[1] . 'P\<esc>'
 					echom '101'
-					" call s:ConcatLines()
 				endif
 
 			elseif l:reg_type =~ ''
@@ -170,7 +165,6 @@ function! s:Replace(type, ...)
 				elseif l:keys[0] == 'v'
 					silent exe 'normal! `["' . l:keys[1] . 'P\<esc>'
 					" echom '103'
-					" call s:ConcatLines()
 				elseif l:keys[0] == 'V'
 					silent exe 'normal! `[i=="' . l:keys[1] . 'P\<esc>'
 					echom '104'
@@ -214,7 +208,6 @@ function! s:Replace(type, ...)
 				" elseif l:keys[0] == 'v'
 					" silent exe 'normal! `["' . l:keys[1] . 'P\<esc>'
 					" echom '101'
-					" " call s:ConcatLines()
 				" endif
 
 			elseif l:reg_type =~ ''
@@ -225,7 +218,6 @@ function! s:Replace(type, ...)
 					" silent exe 'normal! `[v`]c=="' . l:keys[1] . 'P\<esc>'
 					silent exe 'normal! `[v`]c=="' . l:keys[1] . 'P\<esc>'
 					" echom '103'
-					" call s:ConcatLines()
 				elseif l:keys[0] == 'V'
 					silent exe 'normal! `[c=="' . l:keys[1] . 'P\<esc>'
 					echom '104'
