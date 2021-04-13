@@ -1,4 +1,5 @@
 " TODO Add count to all mappings possible
+" TODO Implement 'cw' special case when replacing word
 " TODO Add way to force replace blockwise
 " TODO Add way to force paste block/line/characterwise
 " TODO Add variables for user configuration (reset default register, ...)
