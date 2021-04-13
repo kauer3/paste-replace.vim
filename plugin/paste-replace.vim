@@ -179,7 +179,7 @@ function! s:Replace(type, ...)
 				endif
 
 			elseif l:reg_type =~ ''
-				if l:keys[0] =~ '' || l:keys[0] == 'replace'
+				if l:keys[0] == 'block' || l:keys[0] == 'replace'
 					silent exe 'normal! `["' . l:keys[1] . 'P\<esc>'
 					echom 'block to block (empty text object)'
 				elseif l:keys[0] == 'v'
@@ -234,7 +234,7 @@ function! s:Replace(type, ...)
 				endif
 
 			elseif l:reg_type =~ ''
-				if l:keys[0] =~ '' || l:keys[0] == 'replace'
+				if l:keys[0] == 'block' || l:keys[0] == 'replace'
 					silent exe 'normal! `[v`]"' . l:keys[1] . 'P\<esc>'
 					" echom 'block to block (not empty text object)'
 					echom l:keys[0]
