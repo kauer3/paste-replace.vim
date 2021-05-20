@@ -21,6 +21,9 @@
 	" Replace blockwise with linewise
 	" Replace blockwise with blockwise
 
+	" Check if work with counts
+	" Check if is possible to repeat with '.'
+
 if exists("g:loaded_paste_replace") || &cp
   finish
 endif
@@ -95,20 +98,22 @@ endfunction
 
 " For now works only with linewise
 function! s:IndentLines()
-	silent exe "normal! `[k$"
-	" let l:start_text_obj = getline('.')
+	silent exe "normal! `0"
+	let l:start_text_obj = getcurpos()
 	" let l:top_surround = l:start_text_obj[col('.')-1] 
 	let l:top_surround = matchstr(getline('.'), '\%' . col('.') . 'c.')
-	silent exe "normal! `]j^"
-	" let l:end_text_obj = getline('.')
+	" silent exe "normal! `]j^"
+	silent exe "normal! `p"
+	let l:end_text_obj = getcurpos()
 	let l:bot_surround = matchstr(getline('.'), '\%' . col('.') . 'c.')
 	" let l:lines = l:end_text_obj[1] - l:start_text_obj[1] + 1
 
 	" if ('{[<' =~ l:top_surround && char2nr(l:bot_surround) - char2nr(l:top_surround) == 2) || (l:top_surround == '(' && l:bot_surround == ')') || (('"' =~ l:top_surround) || ("'" =~ l:top_surround) && l:top_surround == l:bot_surround)
 	if ('{[<' =~ l:top_surround && char2nr(l:bot_surround) - char2nr(l:top_surround) == 2) || (l:top_surround == '(' && l:bot_surround == ')') || ('"' =~ l:top_surround && l:top_surround == l:bot_surround)
-		silent exe "normal! `[=`]"
-		" silent exe "normal! `]=`[j=="
-		" echom "Indent completed"
+		" silent exe "normal! `[=`]"
+		let count =  l:end_text_obj[1] - l:start_text_obj[1] + 1
+		silent exe "normal! `0" . count . "==."
+		echom "indented"
 	endif
 
 endfunction
@@ -227,7 +232,7 @@ function! s:Replace(type, ...)
 					echom 'line to block (not empty text object)'
 				else
 					" if l:keys[0] =~ 'Vv' || l:keys[0] == 'replace'
-					silent exe 'normal! `[v`]c=="' . l:keys[1] . 'P\<esc>'
+					silent exe 'normal! `[lm0`[v`]c==^mp"' . l:keys[1] . 'P\<esc>'
 					" silent exe 'normal! `[v`]c"' . l:keys[1] . 'P\<esc>'
 						" silent exe 'normal! `[v`]"' . l:keys[1] . l:method . '\<esc>'
 
@@ -289,7 +294,6 @@ function! s:Replace(type, ...)
 	" 	silent exe 'normal! `[\<C-V>`]' . l:keys[1] . '\<esc>'
 	" endif
 
-
 	if l:keys[0] == 'copy'
 		call setreg('"', old_reg, old_reg_type)
 	else
@@ -327,6 +331,15 @@ endfunction
 nnoremap <silent> cr :<C-u>let b:paste_replace_keys = ['replace', '*']
 	\ <bar> set operatorfunc=<SID>Replace<CR>g@
 
+nnoremap <silent> crv :<C-u>let b:paste_replace_keys = ['v', '*']
+	\ <bar> set operatorfunc=<SID>Replace<CR>g@
+
+nnoremap <silent> crV :<C-u>let b:paste_replace_keys = ['V', '*']
+	\ <bar> set operatorfunc=<SID>Replace<CR>g@
+
+nnoremap <silent> crb :<C-u>let b:paste_replace_keys = ['block', '*']
+	\ <bar> set operatorfunc=<SID>Replace<CR>g@
+
 nnoremap <silent> yr :<C-u>let b:paste_replace_keys = ['replace', '0']
 	\ <bar> set operatorfunc=<SID>Replace<CR>g@
 
@@ -340,6 +353,15 @@ nnoremap <silent> yrb :<C-u>let b:paste_replace_keys = ['block', '0']
 	\ <bar> set operatorfunc=<SID>Replace<CR>g@
 
 nnoremap <silent> dr :<C-u>let b:paste_replace_keys = ['replace', '"']
+	\ <bar> set operatorfunc=<SID>Replace<CR>g@
+
+nnoremap <silent> drv :<C-u>let b:paste_replace_keys = ['v', '"']
+	\ <bar> set operatorfunc=<SID>Replace<CR>g@
+
+nnoremap <silent> drV :<C-u>let b:paste_replace_keys = ['V', '"']
+	\ <bar> set operatorfunc=<SID>Replace<CR>g@
+
+nnoremap <silent> drb :<C-u>let b:paste_replace_keys = ['block', '"']
 	\ <bar> set operatorfunc=<SID>Replace<CR>g@
 
 nnoremap <silent> cy :<C-u>let b:paste_replace_keys = ['copy', '*']

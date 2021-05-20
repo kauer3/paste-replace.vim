@@ -1,4 +1,4 @@
-*paste-replace.txt*																		         Alpha Version
+*paste-replace.txt*	*paste-replace*						         Alpha Version
 
 
 
@@ -12,7 +12,7 @@
 
 
 ==============================================================================
-CONTENTS                                                 *paste-replace-contents*
+CONTENTS                                                *paste-replace-contents*
       
     Introduction ....................... |paste-replace-introduction|
     Usage .............................. |paste-replace-usage|
@@ -26,7 +26,7 @@ CONTENTS                                                 *paste-replace-contents
     Credits ............................ |paste-replace-credits|
 
 ==============================================================================
-Introduction                      *paste-replace* *paste-replace-introduction*
+Introduction                                        *paste-replace-introduction*
 
 Paste-Replace provides new operators to replace text objects with register 
 contents in vim. In other words, it makes it much easier to replace text with 
@@ -40,7 +40,7 @@ The two replace operators are |cr| (replace with system clipboard) and |yr|
 system clipboard.
 
 ==============================================================================
-Usage                                                    *paste-replace-usage*
+Usage                                                      *paste-replace-usage*
 
 Like any default vim operator, they can be preceded by a count and followed by 
 any motion or operator-pending mode command. Also, if you happen to use a 
